@@ -7,7 +7,7 @@ declare _obj_dir=obj
 cd `dirname $0`
 
 if [ ! -f $_mk_tool.exe ]; then
-    c++ --std=c++20 $_mk_tool.exe $_mk_tool.cpp
+    c++ --std=c++20 -o $_mk_tool.exe $_mk_tool.cpp
 fi
 
 mkdir -p $_obj_dir
