@@ -1,3 +1,5 @@
+.DS_Store
+
 item_dash/makefile
 item_dash/obj/
 item_dash/app.exe
