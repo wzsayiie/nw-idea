@@ -1,2 +1,1 @@
-# nw-idea
-the goal of this project is to build a lightweight game engine
+the goal of this project is to build a lightweight game engine.
