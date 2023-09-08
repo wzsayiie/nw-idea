@@ -1,0 +1,17 @@
+item_dash/makefile
+item_dash/obj/
+item_dash/app.exe
+
+item_nanojs/makefile
+item_nanojs/obj/
+item_nanojs/app.exe
+
+item_reflect/makefile
+item_reflect/obj/
+item_reflect/app.exe
+
+item_structjson/makefile
+item_structjson/obj/
+item_structjson/app.exe
+
+mkmk.exe
