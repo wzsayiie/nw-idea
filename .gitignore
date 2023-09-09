@@ -12,8 +12,8 @@ item_reflect/makefile
 item_reflect/obj/
 item_reflect/app.exe
 
-item_structjson/makefile
-item_structjson/obj/
-item_structjson/app.exe
+item_sjson/makefile
+item_sjson/obj/
+item_sjson/app.exe
 
 mkmk.exe

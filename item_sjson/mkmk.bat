@@ -18,17 +18,17 @@ if not exist %_obj_dir% (
 )
 
 %_mk_tool%.exe ^
-    --compile-cmd "cl /nologo /EHsc /std:c++20 /c /I../src/dash /I../src/reflect /Fo" ^
+    --compile-cmd "cl /nologo /EHsc /std:c++20 /c /I../src/dash /I../src/sjson /Fo" ^
     --link-cmd    "link /nologo /noimplib /noexp /out:" ^
     --output-file %_out_exe% ^
     --object-dir  %_obj_dir% ^
-    --header-dirs         ^
-        ../src/dash       ^
-        ../src/structjson ^
-    --source-dirs         ^
-        ../src/dash       ^
-        ../src/structjson ^
-        .                 ^
+    --header-dirs    ^
+        ../src/dash  ^
+        ../src/sjson ^
+    --source-dirs    ^
+        ../src/dash  ^
+        ../src/sjson ^
+        .            ^
     > makefile
 
 endlocal
