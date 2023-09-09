@@ -18,7 +18,7 @@ if not exist %_obj_dir% (
 )
 
 %_mk_tool%.exe ^
-    --compile-cmd "cl /nologo /EHsc /std:c++20 /c /I../src/dash /I../src/reflect /Fo" ^
+    --compile-cmd "cl /nologo /EHsc /std:c++20 /c /I../src/dash /I../src/nanojs /Fo" ^
     --link-cmd    "link /nologo /noimplib /noexp /out:" ^
     --output-file %_out_exe% ^
     --object-dir  %_obj_dir% ^
