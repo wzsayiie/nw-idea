@@ -24,6 +24,7 @@ public:
 class base_object : public encodable {
 public:
     base_object();
+    ~base_object();
 
 public:
     const std::map<std::string, base_field *> &fields();
@@ -63,7 +64,7 @@ public:
 public:
     static ptr create() {
         ptr obj = std::make_shared<Class>();
-        collect();
+        obj->collect();
         return obj;
     }
 };
