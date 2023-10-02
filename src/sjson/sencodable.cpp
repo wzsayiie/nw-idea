@@ -2,16 +2,13 @@
 
 namespace sjson {
 
-typedef std::map<std::string  , base_field   *> store_fields;
-typedef std::map<base_object *, store_fields *> store_bucket;
+typedef std::map<std::string             , encodable_field *> fields_t;
+typedef std::map<const encodable_object *, fields_t        *> bucket_t;
 
-static store_bucket  _bucket ;
-static store_fields *_active = nullptr;
+static bucket_t  _bucket ;
+static fields_t *_active = nullptr;
 
-void encodable::on_encode() {}
-void encodable::on_decode() {}
-
-base_field::base_field(const char *name) {
+encodable_field::encodable_field(const char *name) {
     if (!name || *name == '\0') {
         return;
     }
@@ -22,22 +19,22 @@ base_field::base_field(const char *name) {
     _active->insert({ name, this });
 }
 
-base_object::base_object() {
+encodable_object::encodable_object() {
     //"_active" should be null when entering this function.
-    _active = new store_fields;
+    _active = new fields_t;
 }
 
-base_object::~base_object() {
+encodable_object::~encodable_object() {
     _bucket.erase(this);
 }
 
-const std::map<std::string, base_field *> &base_object::fields() {
-    //"s" should be nonnull.
-    store_fields *s = _bucket[this];
-    return *s;
+const std::map<std::string, encodable_field *> &encodable_object::fields() const {
+    //"map" should be nonnull.
+    fields_t *map = _bucket[this];
+    return *map;
 }
 
-void base_object::collect() {
+void encodable_object::collect() {
     //"_active" should be nonnull.
     if (!_active->empty()) {
         _bucket.insert({ this, _active });
