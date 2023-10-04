@@ -20,7 +20,10 @@ encodable_field::encodable_field(const char *name) {
 }
 
 encodable_object::encodable_object() {
-    //"_active" should be null when entering this function.
+    if (_active) {
+        //this branch will not run if normal.
+        delete _active;
+    }
     _active = new fields_t;
 }
 
@@ -29,15 +32,23 @@ encodable_object::~encodable_object() {
 }
 
 const std::map<std::string, encodable_field *> &encodable_object::fields() const {
-    //"map" should be nonnull.
-    fields_t *map = _bucket[this];
-    return *map;
+    auto it = _bucket.find(this);
+    if (it != _bucket.end()) {
+        return *it->second;
+    }
+    
+    //this branch will not run if normal.
+    static std::map<std::string, encodable_field *> empty;
+    return empty;
 }
 
 void encodable_object::collect() {
-    //"_active" should be nonnull.
-    if (!_active->empty()) {
-        _bucket.insert({ this, _active });
+    if (_active) {
+        if (!_active->empty()) {
+            _bucket.insert({ this, _active });
+        } else {
+            delete _active;
+        }
     }
     _active = nullptr;
 }

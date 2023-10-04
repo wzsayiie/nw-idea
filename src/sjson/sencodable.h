@@ -6,16 +6,17 @@
 
 namespace sjson {
 
-class encodable_field : public dash::virtual_object {
+class d_exportable encodable_field : public dash::virtual_object {
 public:
     encodable_field(const char *name);
 
 public:
     virtual void on_encode() const = 0;
     virtual void on_decode() = 0;
+    virtual void on_clear () = 0;
 };
 
-class encodable_object : public dash::virtual_object {
+class d_exportable encodable_object : public dash::virtual_object {
 public:
     encodable_object();
     ~encodable_object();
