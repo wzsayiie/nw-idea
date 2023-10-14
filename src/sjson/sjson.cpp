@@ -1,0 +1,3 @@
+
+void sjson_main() {
+}

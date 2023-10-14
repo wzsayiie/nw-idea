@@ -1,0 +1,3 @@
+
+void nanojs_main() {
+}
