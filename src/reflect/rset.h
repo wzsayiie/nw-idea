@@ -14,7 +14,7 @@ template<> struct typeids_of<generic_set> {
 };
 
 class d_exportable generic_set
-    : public extends<generic_set, object>
+    : public dash::extends<generic_set, object>
     , public std::set<any>
 {
 public:
@@ -71,7 +71,7 @@ template<class Value> struct typeids_of<set<Value>> {
     };
 };
 
-template<class Value> class set : public extends<set<Value>, generic_set> {
+template<class Value> class set : public dash::extends<set<Value>, generic_set> {
 public:
     typedef set_iterator<Value, typename std::set<any>::iterator> iterator;
 

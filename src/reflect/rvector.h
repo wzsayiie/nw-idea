@@ -14,7 +14,7 @@ template<> struct typeids_of<generic_vector> {
 };
 
 class d_exportable generic_vector
-    : public extends<generic_vector, object>
+    : public dash::extends<generic_vector, object>
     , public std::vector<any>
 {
 public:
@@ -91,7 +91,7 @@ template<class Value> struct typeids_of<vector<Value>> {
     };
 };
 
-template<class Value> class vector : public extends<vector<Value>, generic_vector> {
+template<class Value> class vector : public dash::extends<vector<Value>, generic_vector> {
 public:
     typedef vector_iterator<Value, typename std::vector<any>::iterator>         iterator;
     typedef vector_iterator<Value, typename std::vector<any>::reverse_iterator> reverse_iterator;

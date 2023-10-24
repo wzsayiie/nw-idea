@@ -78,7 +78,7 @@ template<> struct typeids_of<generic_function> {
     static constexpr const void *value[] = { "generic_function", nullptr };
 };
 
-class d_exportable generic_function : public extends<generic_function, object> {
+class d_exportable generic_function : public dash::extends<generic_function, object> {
 public:
     any call_with_args(const std::vector<any> &args) const;
 
@@ -108,7 +108,7 @@ template<class Ret> struct typeids_of<function<Ret ()>> {
 };
 
 template<class Ret, class... Args> class function<Ret (Args...)>
-    : public extends<function<Ret (Args...)>, generic_function>
+    : public dash::extends<function<Ret (Args...)>, generic_function>
 {
 public:
     function() {

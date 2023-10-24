@@ -30,7 +30,7 @@ template<> struct typeids_of<class injectable> {
     static constexpr const void *value[] = { "injectable", nullptr };
 };
 
-class d_exportable injectable : public extends<injectable, object> {
+class d_exportable injectable : public dash::extends<injectable, object> {
 public:
     generic_function::ptr find_injected_function(const char *name);
 

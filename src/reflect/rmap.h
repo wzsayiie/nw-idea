@@ -14,7 +14,7 @@ template<> struct typeids_of<generic_map> {
 };
 
 class d_exportable generic_map
-    : public extends<generic_map, object>
+    : public dash::extends<generic_map, object>
     , public std::map<any, any>
 {
 public:
@@ -100,7 +100,7 @@ template<class Key, class Value> struct typeids_of<map<Key, Value>> {
     };
 };
 
-template<class Key, class Value> class map : public extends<map<Key, Value>, generic_map> {
+template<class Key, class Value> class map : public dash::extends<map<Key, Value>, generic_map> {
 public:
     typedef map_iterator<Key, Value, typename std::map<any, any>::iterator> iterator;
 
