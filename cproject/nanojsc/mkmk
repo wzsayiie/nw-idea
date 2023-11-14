@@ -1,0 +1,23 @@
+#!/bin/zsh
+
+declare _out_exe=app.exe
+declare _obj_dir=obj
+
+cd `dirname $0`
+
+mkdir -p $_obj_dir
+
+sh ../../mksr
+../../mkmk.exe \
+    --compile-cmd "c++ --std=c++20 -c -I../../cpp/dash -I../../cpp/nanojsc -o " \
+    --link-cmd    "c++ -o " \
+    --output-file $_out_exe \
+    --object-dir  $_obj_dir \
+    --header-dirs           \
+        ../../cpp/dash      \
+        ../../cpp/nanojsc   \
+    --source-dirs           \
+        ../../cpp/dash      \
+        ../../cpp/nanojsc   \
+        .                   \
+    > makefile

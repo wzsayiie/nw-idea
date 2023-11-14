@@ -8,6 +8,10 @@ cproject/nanojs/makefile
 cproject/nanojs/obj/
 cproject/nanojs/app.exe
 
+cproject/nanojsc/makefile
+cproject/nanojsc/obj/
+cproject/nanojsc/app.exe
+
 cproject/reflect/makefile
 cproject/reflect/obj/
 cproject/reflect/app.exe
