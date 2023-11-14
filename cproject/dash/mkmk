@@ -7,15 +7,15 @@ cd `dirname $0`
 
 mkdir -p $_obj_dir
 
-sh ../mksr
-../mkmk.exe \
-    --compile-cmd "c++ --std=c++20 -c -I../src/dash -o " \
+sh ../../mksr
+../../mkmk.exe \
+    --compile-cmd "c++ --std=c++20 -c -I../../cpp/dash -o " \
     --link-cmd    "c++ -o " \
     --output-file $_out_exe \
     --object-dir  $_obj_dir \
-    --header-dirs   \
-        ../src/dash \
-    --source-dirs   \
-        ../src/dash \
-        .           \
+    --header-dirs           \
+        ../../cpp/dash      \
+    --source-dirs           \
+        ../../cpp/dash      \
+        .                   \
     > makefile

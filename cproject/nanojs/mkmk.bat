@@ -11,19 +11,19 @@ if not exist %_obj_dir% (
     mkdir %_obj_dir%
 )
 
-call ..\mksr.bat
-call ..\mkmk.exe ^
-    --compile-cmd "cl /nologo /EHsc /std:c++20 /c /I../src/dash /I../src/nanojs /Fo" ^
+call ..\..\mksr.bat
+call ..\..\mkmk.exe ^
+    --compile-cmd "cl /nologo /EHsc /std:c++20 /c /I../../cpp/dash /I../../cpp/nanojs /Fo" ^
     --link-cmd    "link /nologo /noimplib /noexp /out:" ^
-    --output-file %_out_exe% ^
-    --object-dir  %_obj_dir% ^
-    --header-dirs     ^
-        ../src/dash   ^
-        ../src/nanojs ^
-    --source-dirs     ^
-        ../src/dash   ^
-        ../src/nanojs ^
-        .             ^
+    --output-file %_out_exe%    ^
+    --object-dir  %_obj_dir%    ^
+    --header-dirs               ^
+        ../../cpp/dash          ^
+        ../../cpp/nanojs        ^
+    --source-dirs               ^
+        ../../cpp/dash          ^
+        ../../cpp/nanojs        ^
+        .                       ^
     > makefile
 
 endlocal

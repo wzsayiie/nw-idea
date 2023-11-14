@@ -1,19 +1,19 @@
 .DS_Store
 
-item_dash/makefile
-item_dash/obj/
-item_dash/app.exe
+cproject/dash/makefile
+cproject/dash/obj/
+cproject/dash/app.exe
 
-item_nanojs/makefile
-item_nanojs/obj/
-item_nanojs/app.exe
+cproject/nanojs/makefile
+cproject/nanojs/obj/
+cproject/nanojs/app.exe
 
-item_reflect/makefile
-item_reflect/obj/
-item_reflect/app.exe
+cproject/reflect/makefile
+cproject/reflect/obj/
+cproject/reflect/app.exe
 
-item_sjson/makefile
-item_sjson/obj/
-item_sjson/app.exe
+cproject/sjson/makefile
+cproject/sjson/obj/
+cproject/sjson/app.exe
 
 mkmk.exe
