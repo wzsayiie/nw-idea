@@ -1,0 +1,3 @@
+
+void master_main() {
+}

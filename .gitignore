@@ -4,13 +4,13 @@ cproject/dash/makefile
 cproject/dash/obj/
 cproject/dash/app.exe
 
+cproject/master/makefile
+cproject/master/obj/
+cproject/msater/app.exe
+
 cproject/nanojs/makefile
 cproject/nanojs/obj/
 cproject/nanojs/app.exe
-
-cproject/nanojsc/makefile
-cproject/nanojsc/obj/
-cproject/nanojsc/app.exe
 
 cproject/reflect/makefile
 cproject/reflect/obj/
@@ -19,5 +19,9 @@ cproject/reflect/app.exe
 cproject/sjson/makefile
 cproject/sjson/obj/
 cproject/sjson/app.exe
+
+cproject/ui/makefile
+cproject/ui/obj/
+cproject/ui/app.exe
 
 mkmk.exe

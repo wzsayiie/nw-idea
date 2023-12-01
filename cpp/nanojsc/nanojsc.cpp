@@ -1,3 +1,0 @@
-
-void nanojsc_main() {
-}
