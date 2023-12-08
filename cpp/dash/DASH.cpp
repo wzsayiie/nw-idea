@@ -1,0 +1,2 @@
+void dash_main() {
+}
