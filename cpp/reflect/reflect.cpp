@@ -1,3 +1,0 @@
-
-void reflect_main() {
-}

@@ -1,3 +1,0 @@
-
-void ui_main() {
-}
