@@ -1,10 +1,10 @@
 @echo off
 
-::  these parameters need to be provided externally:
-::    _exec_: excutable file;
-::    _objd_: object directory;
-::    _mkmk_: mkmk tool;
-::    _dirs_: source directories.
+::these parameters need to be provided externally:
+::  _exec_: excutable file;
+::  _objd_: object directory;
+::  _mkmk_: mkmk tool;
+::  _dirs_: source directories.
 
 setlocal EnableDelayedExpansion
 

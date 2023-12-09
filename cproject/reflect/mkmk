@@ -1,23 +1,14 @@
 #!/bin/zsh
 
-declare _out_exe=app.exe
-declare _obj_dir=obj
-
 cd `dirname $0`
 
-mkdir -p $_obj_dir
+export _exec=app.exe
+export _objd=obj
+export _mkmk=../../mkmk
 
-sh ../../mbuild
-../../mkmk.exe  \
-    --compile-cmd "c++ --std=c++20 -c -I../../cpp/dash -I../../cpp/reflect -o " \
-    --link-cmd    "c++ -o " \
-    --output-file $_out_exe \
-    --object-dir  $_obj_dir \
-    --header-dirs           \
-        ../../cpp/dash      \
-        ../../cpp/reflect   \
-    --source-dirs           \
-        ../../cpp/dash      \
-        ../../cpp/reflect   \
-        .                   \
-    > makefile
+export _dirs="        \
+    ../../cpp/reflect \
+    ../../cpp/dash    \
+"
+
+sh ../../mkbuild

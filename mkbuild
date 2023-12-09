@@ -1,9 +1,30 @@
 #!/bin/zsh
 
-declare _file=mkmk
+# these parameters need to be provided externally:
+#   _exec: excutable file;
+#   _objd: object directory;
+#   _mkmk: mkmk tool;
+#   _dirs: source directories.
 
-cd `dirname $0`
+# create object directory.
+mkdir -p $_objd
 
-if [ ! -f $_file.exe ]; then
-    c++ --std=c++20 -O3 -o $_file.exe $_file.cpp
+# build mkmk tool.
+if [ ! -f $_mkmk.exe ]; then
+    c++ --std=c++20 -O3 -o $_mkmk.exe $_mkmk.cpp
 fi
+
+# generate makefile:
+declare _incs=
+for item in $_dirs; do
+    _incs="$_incs -I$item"
+done
+
+$_mkmk.exe \
+    --compile-cmd "c++ --std=c++20 -c $_incs -o " \
+    --link-cmd    "c++ -o " \
+    --output-file $_exec    \
+    --object-dir  $_objd    \
+    --header-dirs $_dirs    \
+    --source-dirs $_dirs .  \
+    > makefile
