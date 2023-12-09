@@ -30,15 +30,15 @@
 
 //which os platform.
 //
-// +---------------------------------------+ +---------+
-// |                   posix               | | windows |
-// | +-------------------+ +-------------+ | |         |
-// | |     linux os      | |     mac     | | | +-----+ |
-// | | +-------+ +-----+ | | +---+ +---+ | | | |     | |
-// | | |android| |linux| | | |ios| |osx| | | | |win32| |
-// | | +-------+ +-----+ | | +---+ +---+ | | | |     | |
-// | +-------------------+ +-------------+ | | +-----+ |
-// +---------------------------------------+ +---------+
+// +-----------------------------------------+ +-------+
+// |                  posix                  | |       |
+// | +-------------------+ +---------------+ | |       |
+// | |    linux-like     | |     apple     | | |       |
+// | | +-------+ +-----+ | | +---+ +-----+ | | |windows|
+// | | |android| |linux| | | |ios| |macos| | | |       |
+// | | +-------+ +-----+ | | +---+ +-----+ | | |       |
+// | +-------------------+ +---------------+ | |       |
+// +-----------------------------------------+ +-------+
 //
 #if __APPLE__
     #include <TargetConditionals.h>
@@ -46,32 +46,32 @@
 #if __ANDROID__
     #define D_OS_ANDROID 1
     #define D_OS_IOS     0
-    #define D_OS_WIN32   0
-    #define D_OS_OSX     0
+    #define D_OS_WINDOWS 0
+    #define D_OS_MACOS   0
     #define D_OS_LINUX   0
 #elif TARGET_OS_IOS
     #define D_OS_ANDROID 0
     #define D_OS_IOS     1
-    #define D_OS_WIN32   0
-    #define D_OS_OSX     0
+    #define D_OS_WINDOWS 0
+    #define D_OS_MACOS   0
     #define D_OS_LINUX   0
 #elif _WIN32
     #define D_OS_ANDROID 0
     #define D_OS_IOS     0
-    #define D_OS_WIN32   1
-    #define D_OS_OSX     0
+    #define D_OS_WINDOWS 1
+    #define D_OS_MACOS   0
     #define D_OS_LINUX   0
 #elif TARGET_OS_OSX
     #define D_OS_ANDROID 0
     #define D_OS_IOS     0
-    #define D_OS_WIN32   0
-    #define D_OS_OSX     1
+    #define D_OS_WINDOWS 0
+    #define D_OS_MACOS   1
     #define D_OS_LINUX   0
 #elif __linux__
     #define D_OS_ANDROID 0
     #define D_OS_IOS     0
-    #define D_OS_WIN32   0
-    #define D_OS_OSX     0
+    #define D_OS_WINDOWS 0
+    #define D_OS_MACOS   0
     #define D_OS_LINUX   1
 #else
     #error "unknown os platform."
