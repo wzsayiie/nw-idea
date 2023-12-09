@@ -11,7 +11,7 @@ if not exist %_obj_dir% (
     mkdir %_obj_dir%
 )
 
-call ..\..\mksr.bat
+call ..\..\mbuild.bat
 call ..\..\mkmk.exe ^
     --compile-cmd "cl /nologo /EHsc /std:c++20 /c /I../../cpp/dash /I../../cpp/reflect /Fo" ^
     --link-cmd    "link /nologo /noimplib /noexp /out:" ^
