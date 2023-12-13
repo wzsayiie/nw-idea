@@ -6,33 +6,35 @@ static dash::lazy<std::vector<reflect::function<void ()>::ptr>> sResumeListeners
 static dash::lazy<std::vector<reflect::function<void ()>::ptr>> sUpdateListeners;
 static dash::lazy<std::vector<reflect::function<void ()>::ptr>> sPauseListeners ;
 
-static void MCallListeners(const std::vector<reflect::function<void ()>::ptr> &listeners) {
-    for (const auto &func : listeners) {
-        func->call();
+void _MAppLaunch() {
+}
+
+static void MCall(const std::vector<reflect::function<void ()>::ptr> &list) {
+    for (const auto &item : list) {
+        item->call();
     }
 }
 
-void _MAppResume() { MCallListeners(sResumeListeners); }
-void _MAppUpdate() { MCallListeners(sUpdateListeners); }
-void _MAppPause () { MCallListeners(sPauseListeners ); }
+void _MAppResume() { MCall(sResumeListeners); }
+void _MAppUpdate() { MCall(sUpdateListeners); }
+void _MAppPause () { MCall(sPauseListeners ); }
 
 define_reflectable_function(MAppAddResumeListener, "args:listener")
-void MAppAddResumeListener(const reflect::function<void ()>::ptr &listener) {
-    if (listener) {
-        sResumeListeners->push_back(listener);
-    }
-}
-
 define_reflectable_function(MAppAddUpdateListener, "args:listener")
-void MAppAddUpdateListener(const reflect::function<void ()>::ptr &listener) {
-    if (listener) {
-        sUpdateListeners->push_back(listener);
-    }
+define_reflectable_function(MAppAddPauseListener , "args:listener")
+
+static void MPush(
+    std::vector<reflect::function<void ()>::ptr> *list,
+    const reflect::function<void ()>::ptr        &item)
+{
+    list->push_back(item);
 }
 
-define_reflectable_function(MAppAddPauseListener, "args:listener")
-void MAppAddPauseListener(const reflect::function<void ()>::ptr &listener) {
-    if (listener) {
-        sPauseListeners->push_back(listener);
-    }
+void MAppAddResumeListener(const reflect::function<void ()>::ptr &i) { MPush(&sResumeListeners, i); }
+void MAppAddUpdateListener(const reflect::function<void ()>::ptr &i) { MPush(&sUpdateListeners, i); }
+void MAppAddPauseListener (const reflect::function<void ()>::ptr &i) { MPush(&sPauseListeners , i); }
+
+define_reflectable_function(MAppUpdateInterval)
+double MAppUpdateInterval() {
+    return 0.1;
 }
