@@ -4,7 +4,7 @@
 #include <string>
 #include "dobject.h"
 
-namespace sjson {
+namespace cson {
 
 class d_exportable encodable_field : public dash::virtual_object {
 public:
@@ -28,4 +28,4 @@ protected:
     void collect();
 };
 
-} //end sjson.
+} //end cson.

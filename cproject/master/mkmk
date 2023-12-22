@@ -8,10 +8,10 @@ export _mkmk=../../mkmk
 
 export _dirs="        \
     ../../cpp/master  \
+    ../../cpp/cson    \
     ../../cpp/dash    \
     ../../cpp/nanojs  \
     ../../cpp/reflect \
-    ../../cpp/sjson   \
 "
 
 sh ../../mkbuild

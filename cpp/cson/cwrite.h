@@ -1,9 +1,9 @@
 #pragma once
 
 #include <vector>
-#include "sencodable.h"
+#include "cencodable.h"
 
-namespace sjson {
+namespace cson {
 
 void prepare_write_context(bool pretty);
 
@@ -134,4 +134,4 @@ template<class Item>
     }
 };
 
-} //end sjson.
+} //end cson.

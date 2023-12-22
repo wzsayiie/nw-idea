@@ -1,11 +1,11 @@
-#include "sread.h"
+#include "cread.h"
 #include <algorithm>
 #include <cctype>
 #include <cstdlib>
 #include <cstring>
 #include <sstream>
 
-namespace sjson {
+namespace cson {
 
 static const char *_cur = nullptr;
 static const char *_end = nullptr;
@@ -163,4 +163,4 @@ std::string read_string_value() {
     return value;
 }
 
-} //end sjson.
+} //end cson.

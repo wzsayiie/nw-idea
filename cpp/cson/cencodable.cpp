@@ -1,6 +1,6 @@
-#include "sencodable.h"
+#include "cencodable.h"
 
-namespace sjson {
+namespace cson {
 
 typedef std::map<std::string             , encodable_field *> fields_t;
 typedef std::map<const encodable_object *, fields_t        *> bucket_t;
@@ -53,4 +53,4 @@ void encodable_object::collect() {
     _active = nullptr;
 }
 
-} //end sjson.
+} //end cson.

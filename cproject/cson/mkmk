@@ -6,9 +6,9 @@ export _exec=app.exe
 export _objd=obj
 export _mkmk=../../mkmk
 
-export _dirs="      \
-    ../../cpp/sjson \
-    ../../cpp/dash  \
+export _dirs="     \
+    ../../cpp/cson \
+    ../../cpp/dash \
 "
 
 sh ../../mkbuild

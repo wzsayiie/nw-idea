@@ -1,0 +1,2 @@
+void cson_main() {
+}

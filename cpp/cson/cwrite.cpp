@@ -1,6 +1,6 @@
-#include "swrite.h"
+#include "cwrite.h"
 
-namespace sjson {
+namespace cson {
 
 static std::string _content;
 
@@ -83,4 +83,4 @@ std::string last_write_string() {
     return ret;
 }
 
-} //end sjson.
+} //end cson.

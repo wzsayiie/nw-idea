@@ -8,8 +8,8 @@ set _exec_=app.exe
 set _objd_=obj
 set _mkmk_=..\..\mkmk
 
-set _dirs_=         ^
-    ../../cpp/sjson ^
+set _dirs_=        ^
+    ../../cpp/cson ^
     ../../cpp/dash
 
 call ..\..\mkbuild.bat

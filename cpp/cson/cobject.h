@@ -1,10 +1,10 @@
 #pragma once
 
-#include "sencodable.h"
-#include "sread.h"
-#include "swrite.h"
+#include "cencodable.h"
+#include "cread.h"
+#include "cwrite.h"
 
-namespace sjson {
+namespace cson {
 
 //fields:
 
@@ -197,4 +197,4 @@ public:
     }
 };
 
-} //end sjson.
+} //end cson.
