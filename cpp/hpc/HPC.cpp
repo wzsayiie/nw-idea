@@ -1,0 +1,2 @@
+void hpc_main() {
+}
