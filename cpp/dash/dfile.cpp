@@ -3,7 +3,7 @@
 
 namespace dash {
 
-void read_file(const char *path, const std::function<void *(int size)> &buffer) {
+void read_file(const char *path, const std::function<void *(size_t size)> &buffer) {
     if (!path || !*path || !buffer) {
         return;
     }
@@ -13,9 +13,9 @@ void read_file(const char *path, const std::function<void *(int size)> &buffer) 
         return;
     }
 
-    int size = 0; {
+    size_t size = 0; {
         file.seekg(0, std::ios::end);
-        size = (int)file.tellg();
+        size = file.tellg();
         file.seekg(0, std::ios::beg);
     }
 
@@ -23,7 +23,7 @@ void read_file(const char *path, const std::function<void *(int size)> &buffer) 
     file.read(bytes, size);
 }
 
-void write_file(const char *path, const void *bytes, int size) {
+void write_file(const char *path, const void *bytes, size_t size) {
     if (!path || !*path) {
         return;
     }
