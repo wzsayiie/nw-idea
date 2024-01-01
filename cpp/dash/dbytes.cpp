@@ -1,5 +1,3 @@
-#pragma once
-
 #include "dbytes.h"
 
 namespace dash {
