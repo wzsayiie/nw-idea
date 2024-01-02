@@ -13,7 +13,7 @@ template<> struct typeids_of<generic_set> {
     static constexpr const void *value[] = { "generic_set", nullptr };
 };
 
-class d_exportable generic_set
+class generic_set
     : public dash::extends<generic_set, object>
     , public std::set<any>
 {

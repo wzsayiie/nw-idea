@@ -8,7 +8,7 @@ namespace cson {
 
 //fields:
 
-template<class Value> class d_exportable store_field : public encodable_field {
+template<class Value> class store_field : public encodable_field {
 public:
     using encodable_field::encodable_field;
 
@@ -30,7 +30,7 @@ protected:
 };
 
 //for bool, double field.
-template<class Value> class d_exportable field : public store_field<Value> {
+template<class Value> class field : public store_field<Value> {
 public:
     using store_field<Value>::store_field;
 
@@ -45,7 +45,7 @@ public:
 };
 
 //for string field.
-template<> class d_exportable field<std::string> : public store_field<std::string> {
+template<> class field<std::string> : public store_field<std::string> {
 public:
     using store_field<std::string>::store_field;
 
@@ -64,7 +64,7 @@ public:
 };
 
 //for object field.
-template<class Object> class d_exportable field<std::shared_ptr<Object>>
+template<class Object> class field<std::shared_ptr<Object>>
     : public store_field<std::shared_ptr<Object>>
 {
 public:
@@ -89,7 +89,7 @@ public:
 };
 
 //for map field.
-template<class Key, class Value> class d_exportable field<std::map<Key, Value>>
+template<class Key, class Value> class field<std::map<Key, Value>>
     : public store_field<std::shared_ptr<std::map<Key, Value>>>
 {
 public:
@@ -122,7 +122,7 @@ public:
 };
 
 //for vector field.
-template<class Item> class d_exportable field<std::vector<Item>>
+template<class Item> class field<std::vector<Item>>
     : public store_field<std::shared_ptr<std::vector<Item>>>
 {
 public:
@@ -156,7 +156,7 @@ public:
 
 //object:
 
-template<class Class> class d_exportable object : public encodable_object {
+template<class Class> class object : public encodable_object {
 public:
     typedef std::shared_ptr<Class> ptr;
 

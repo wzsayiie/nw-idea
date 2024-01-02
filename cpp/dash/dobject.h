@@ -1,23 +1,22 @@
 #pragma once
 
 #include <memory>
-#include "dexport.h"
 
 namespace dash {
 
 //virtual object.
-class d_exportable virtual_object {
+class virtual_object {
 public:
     virtual ~virtual_object() = default;
 };
 
 //basic object:
-template<class Class, class Base> class d_exportable _basic_object_generic
+template<class Class, class Base> class _basic_object_generic
     : public Base
 {
 };
 
-class d_exportable _basic_object
+class _basic_object
     : public virtual_object
 {
 public:
@@ -29,7 +28,7 @@ template<
     class Base ,
     template<class, class> class Generic = Base::template generic
 >
-class d_exportable extends
+class extends
     : public Generic<Class, Base>
 {
 public:
@@ -39,7 +38,7 @@ public:
 };
 
 //shared object:
-template<class Class, class Base> class d_exportable _shared_object_generic
+template<class Class, class Base> class _shared_object_generic
     : public _basic_object::generic<Class, Base>
 {
 public:
@@ -58,7 +57,7 @@ public:
     }
 };
 
-class d_exportable _shared_object
+class _shared_object
     : public extends<_shared_object, _basic_object, _shared_object_generic>
 {
     template<class, class> friend class _shared_object_generic;
@@ -68,7 +67,7 @@ private:
 };
 
 //object.
-class d_exportable object
+class object
     : public extends<object, _shared_object>
 {
 };

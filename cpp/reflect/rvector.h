@@ -13,7 +13,7 @@ template<> struct typeids_of<generic_vector> {
     static constexpr const void *value[] = { "generic_vector", nullptr };
 };
 
-class d_exportable generic_vector
+class generic_vector
     : public dash::extends<generic_vector, object>
     , public std::vector<any>
 {

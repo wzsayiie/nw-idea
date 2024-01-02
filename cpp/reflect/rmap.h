@@ -13,7 +13,7 @@ template<> struct typeids_of<generic_map> {
     static constexpr const void *value[] = { "generic_map", nullptr };
 };
 
-class d_exportable generic_map
+class generic_map
     : public dash::extends<generic_map, object>
     , public std::map<any, any>
 {

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "dexport.h"
 #include "rfunction.h"
 
 //lifecycle of an application:
@@ -12,13 +11,13 @@
 //
 
 //these functions should be invoked by host.
-d_exportable void _MAppLaunch();
-d_exportable void _MAppResume();
-d_exportable void _MAppUpdate();
-d_exportable void _MAppPause ();
+void _MAppLaunch();
+void _MAppResume();
+void _MAppUpdate();
+void _MAppPause ();
 
-d_exportable void MAppAddResumeListener(const reflect::function<void ()>::ptr &listener);
-d_exportable void MAppAddUpdateListener(const reflect::function<void ()>::ptr &listener);
-d_exportable void MAppAddPauseListener (const reflect::function<void ()>::ptr &listener);
+void MAppAddResumeListener(const reflect::function<void ()>::ptr &listener);
+void MAppAddUpdateListener(const reflect::function<void ()>::ptr &listener);
+void MAppAddPauseListener (const reflect::function<void ()>::ptr &listener);
 
-d_exportable double MAppUpdateInterval();
+double MAppUpdateInterval();

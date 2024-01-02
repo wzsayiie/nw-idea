@@ -22,13 +22,13 @@ std::string read_string_value();
 //key reader:
 template<class T> struct key_reader;
 
-template<> struct d_exportable key_reader<double> {
+template<> struct key_reader<double> {
     static double read() {
         return read_double_key();
     }
 };
 
-template<> struct d_exportable key_reader<std::string> {
+template<> struct key_reader<std::string> {
     static std::string read() {
         return read_string_key();
     }
@@ -37,26 +37,26 @@ template<> struct d_exportable key_reader<std::string> {
 //value reader:
 template<class T> struct value_reader;
 
-template<> struct d_exportable value_reader<bool> {
+template<> struct value_reader<bool> {
     static bool read() {
         return read_bool_value();
     }
 };
 
-template<> struct d_exportable value_reader<double> {
+template<> struct value_reader<double> {
     static double read() {
         return read_double_value();
     }
 };
 
-template<> struct d_exportable value_reader<std::string> {
+template<> struct value_reader<std::string> {
     static std::string read() {
         return read_string_value();
     }
 };
 
 //the specialization for skipping any value.
-template<> struct d_exportable value_reader<void> {
+template<> struct value_reader<void> {
     static void read() {
         char fore = look_forward();
         if (fore == '{') {
@@ -112,7 +112,7 @@ template<> struct d_exportable value_reader<void> {
     }
 };
 
-template<> struct d_exportable value_reader<encodable_object *> {
+template<> struct value_reader<encodable_object *> {
     static void read(encodable_object *obj) {
         if (try_read_empty('{', '}')) {
             return;
@@ -140,7 +140,7 @@ template<> struct d_exportable value_reader<encodable_object *> {
     }
 };
 
-template<class Object> struct d_exportable value_reader<std::shared_ptr<Object>> {
+template<class Object> struct value_reader<std::shared_ptr<Object>> {
     static std::shared_ptr<Object> read() {
         auto obj = Object::create();
         value_reader<encodable_object *>::read(obj.get());
@@ -149,7 +149,7 @@ template<class Object> struct d_exportable value_reader<std::shared_ptr<Object>>
 };
 
 template<class Key, class Value>
-    struct d_exportable value_reader<std::shared_ptr<std::map<Key, Value>>>
+    struct value_reader<std::shared_ptr<std::map<Key, Value>>>
 {
     static std::shared_ptr<std::map<Key, Value>> read() {
         //do not distinguish between "null", "undefined" and empty map.
@@ -178,7 +178,7 @@ template<class Key, class Value>
 };
 
 template<class Item>
-    struct d_exportable value_reader<std::shared_ptr<std::vector<Item>>>
+    struct value_reader<std::shared_ptr<std::vector<Item>>>
 {
     static std::shared_ptr<std::vector<Item>> read() {
         if (try_read_empty('[', ']')) {

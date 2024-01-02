@@ -23,14 +23,14 @@ void write_value(const std::string &value);
 std::string last_write_string();
 
 //for bool, double, string.
-template<class Value> struct d_exportable writer {
+template<class Value> struct writer {
     static void write(const Value &value) {
         write_value(value);
     }
 };
 
 //for object:
-template<> struct d_exportable writer<encodable_object *> {
+template<> struct writer<encodable_object *> {
     static void write(const encodable_object *obj) {
         if (obj == nullptr) {
             //do not use "null", which is helpful for determining the type.
@@ -64,7 +64,7 @@ template<> struct d_exportable writer<encodable_object *> {
     }
 };
 
-template<class Object> struct d_exportable writer<std::shared_ptr<Object>> {
+template<class Object> struct writer<std::shared_ptr<Object>> {
     static void write(const std::shared_ptr<Object> &obj) {
         writer<encodable_object *>::write(obj.get());
     }
@@ -72,7 +72,7 @@ template<class Object> struct d_exportable writer<std::shared_ptr<Object>> {
 
 //for map.
 template<class Key, class Value>
-    struct d_exportable writer<std::shared_ptr<std::map<Key, Value>>>
+    struct writer<std::shared_ptr<std::map<Key, Value>>>
 {
     static void write(const std::shared_ptr<std::map<Key, Value>> &map) {
         if (!map || map->empty()) {
@@ -106,7 +106,7 @@ template<class Key, class Value>
 
 //for vector.
 template<class Item>
-    struct d_exportable writer<std::shared_ptr<std::vector<Item>>>
+    struct writer<std::shared_ptr<std::vector<Item>>>
 {
     static void write(const std::shared_ptr<std::vector<Item>> &vector) {
         if (!vector || vector->empty()) {

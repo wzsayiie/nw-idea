@@ -2,7 +2,6 @@
 
 #include <memory>
 #include <string>
-#include "dexport.h"
 
 namespace reflect {
 
@@ -83,7 +82,7 @@ template<> struct typeids_of<std::string> { static constexpr const void *value[]
 
 //type name:
 
-d_exportable std::string make_typename(void **ids);
+std::string make_typename(void **ids);
 
 template<class Type> struct typename_of {
     static const char *value() {

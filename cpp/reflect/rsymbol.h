@@ -6,7 +6,7 @@ namespace reflect {
 
 //symbol:
 
-class d_exportable symbol {
+class symbol {
 public:
     static symbol make(const char *str);
     static symbol find(const char *str);

@@ -11,7 +11,7 @@ template<> struct typeids_of<class object> {
 };
 
 //object:
-template<class Class, class Base> class d_exportable _object_generic
+template<class Class, class Base> class _object_generic
     : public dash::object::generic<Class, Base>
 {
 public:
@@ -20,7 +20,7 @@ public:
     }
 };
 
-class d_exportable object
+class object
     : public dash::extends<object, dash::object, _object_generic>
 {
 };

@@ -6,7 +6,7 @@
 
 namespace cson {
 
-class d_exportable encodable_field : public dash::virtual_object {
+class encodable_field : public dash::virtual_object {
 public:
     encodable_field(const char *name);
 
@@ -16,7 +16,7 @@ public:
     virtual void on_clear () = 0;
 };
 
-class d_exportable encodable_object : public dash::virtual_object {
+class encodable_object : public dash::virtual_object {
 public:
     encodable_object();
     ~encodable_object();

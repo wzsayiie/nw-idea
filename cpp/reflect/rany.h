@@ -20,7 +20,7 @@ template<> struct typeids_of<class any> {
     static constexpr const void *value[] = { "any", nullptr };
 };
 
-class d_exportable any {
+class any {
 public:
     any();
     any(nullptr_t);

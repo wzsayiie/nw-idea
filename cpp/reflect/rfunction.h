@@ -7,9 +7,9 @@
 namespace reflect {
 
 //arguments and return value of current stack frame.
-d_exportable int  get_arg_count();
-d_exportable any  get_arg_value(int index);
-d_exportable void return_value (const any &value);
+int  get_arg_count();
+any  get_arg_value(int index);
+void return_value (const any &value);
 
 //function arguments count:
 
@@ -78,7 +78,7 @@ template<> struct typeids_of<generic_function> {
     static constexpr const void *value[] = { "generic_function", nullptr };
 };
 
-class d_exportable generic_function : public dash::extends<generic_function, object> {
+class generic_function : public dash::extends<generic_function, object> {
 public:
     any call_with_args(const std::vector<any> &args) const;
 

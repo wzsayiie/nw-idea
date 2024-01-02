@@ -118,14 +118,14 @@ void commit_class_static_function(const symbol &cls, const std::string &name, co
 void commit_class_inst_function  (const symbol &cls, const std::string &name, const symbol &type, const char *note , const any &value);
 void commit_enum_value           (const symbol &enu, const std::string &name, const symbol &type, const any  &value);
 
-d_exportable const std::map<symbol, type_meta *> *type_metas();
+const std::map<symbol, type_meta *> *type_metas();
 
-d_exportable const type_meta *query_type_meta(const symbol &sym, category cate);
-d_exportable const type_meta *query_type_meta(const symbol &sym);
+const type_meta *query_type_meta(const symbol &sym, category cate);
+const type_meta *query_type_meta(const symbol &sym);
 
-d_exportable const std::map<std::string, variable> *variables();
-d_exportable const std::map<std::string, variable> *functions();
-d_exportable const std::map<std::string, variable> *classes  ();
-d_exportable const std::map<std::string, variable> *enums    ();
+const std::map<std::string, variable> *variables();
+const std::map<std::string, variable> *functions();
+const std::map<std::string, variable> *classes  ();
+const std::map<std::string, variable> *enums    ();
 
 } //end reflect.
