@@ -3,25 +3,25 @@
 #include "rextract.h"
 
 #define define_reflectable_const(Const)                                     \
-/**/    static reflect::generator _unused_##Const(#Const, Const);           \
+/**/    static reflect::generator _r_unused_##Const(#Const, Const);         \
 
 #define define_reflectable_function(Function, ...)                          \
-/**/    static reflect::generator _unused_##Function(                       \
+/**/    static reflect::generator _r_unused_##Function(                     \
 /**/        #Function, Function, ##__VA_ARGS__                              \
 /**/    );
 
 #define define_reflectable_class_const(Class, Const)                        \
-/**/    static reflect::generator _unused_##Class##_##Const(                \
+/**/    static reflect::generator _r_unused_##Class##_##Const(              \
 /**/        (Class *)nullptr, #Const, Class::Const                          \
 /**/    );
 
 #define define_reflectable_class_function(Class, Function, ...)             \
-/**/    static reflect::generator _unused_##Class##_##Function(             \
+/**/    static reflect::generator _r_unused_##Class##_##Function(           \
 /**/        (Class *)nullptr, #Function, &Class::Function, ##__VA_ARGS__    \
 /**/    );
 
 #define define_reflectable_enum_const(Enum, Const)                          \
-/**/    static reflect::generator _unused_##Enum##_##Const(                 \
+/**/    static reflect::generator _r_unused_##Enum##_##Const(               \
 /**/        (Enum)0, #Const, (int)Enum::Const                               \
 /**/    );
 
