@@ -12,6 +12,7 @@ set _dirs_=           ^
     ../../cpp/master  ^
     ../../cpp/cson    ^
     ../../cpp/dash    ^
+    ../../cpp/hpc     ^
     ../../cpp/nanojs  ^
     ../../cpp/reflect
 

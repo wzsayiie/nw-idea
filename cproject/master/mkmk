@@ -10,6 +10,7 @@ export _dirs="        \
     ../../cpp/master  \
     ../../cpp/cson    \
     ../../cpp/dash    \
+    ../../cpp/hpc     \
     ../../cpp/nanojs  \
     ../../cpp/reflect \
 "
