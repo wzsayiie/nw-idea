@@ -2,29 +2,26 @@
 
 namespace dash {
 
-bytes_ptr make_bytes(const uint8_t *begin, const uint8_t *end) {
+bytes make_bytes(const void *begin, const void *end) {
     if (begin && begin < end) {
-        return std::make_shared<std::vector<uint8_t>>(begin, end);
+        return std::make_shared<u8vec>((uint8_t *)begin, (uint8_t *)end);
     }
-    return make_bytes();
+    return std::make_shared<u8vec>();
 }
 
-bytes_ptr make_bytes(const uint8_t *data, size_t size) {
+bytes make_bytes(const void *data, size_t size) {
     if (data && size > 0) {
-        return std::make_shared<std::vector<uint8_t>>(data, data + size);
+        return std::make_shared<u8vec>((uint8_t *)data, (uint8_t *)data + size);
     }
-    return make_bytes();
+    return std::make_shared<u8vec>();
 }
 
-bytes_ptr make_bytes(size_t size) {
-    if (size > 0) {
-        return std::make_shared<std::vector<uint8_t>>(size);
-    }
-    return make_bytes();
+bytes make_bytes(size_t size) {
+    return std::make_shared<u8vec>(size);
 }
 
-bytes_ptr make_bytes() {
-    return std::make_shared<std::vector<uint8_t>>();
+bytes make_bytes() {
+    return std::make_shared<u8vec>();
 }
 
 } //end dash.
