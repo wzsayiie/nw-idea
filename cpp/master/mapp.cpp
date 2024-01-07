@@ -1,6 +1,6 @@
 #include "mapp.h"
 #include "dlazy.h"
-#include "hclient.h"
+#include "hcpp.h"
 #include "rdefine.h"
 
 static dash::lazy<std::vector<reflect::function<void ()>::ptr>> sResumeListeners;
@@ -38,8 +38,8 @@ void MAppAddUpdateListener(const reflect::function<void ()>::ptr &listener) {
     }
 }
 
-define_reflectable_function(MAppAddPauseListener , "args:listener")
-void MAppAddPauseListener (const reflect::function<void ()>::ptr &listener) {
+define_reflectable_function(MAppAddPauseListener, "args:listener")
+void MAppAddPauseListener(const reflect::function<void ()>::ptr &listener) {
     if (listener) {
         sPauseListeners ->push_back(listener);
     }
