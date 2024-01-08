@@ -41,7 +41,7 @@ void hpc_session_release(int64_t sid) {
 
 void hpc_session_set_proc_name(int64_t sid, const char *name) {
     if (auto obj = (hpc_session *)sid) {
-        obj->proc_name = name ?: "";
+        obj->proc_name = name ? name : "";
     }
 }
 
@@ -103,7 +103,7 @@ void hpc_session_set_arg_float64(int64_t sid, const char *key, double arg) {
 void hpc_session_set_arg_string(int64_t sid, const char *key, const char *arg) {
     set_arg(sid, key, {
         .type = hpc_type_string,
-        .str  = arg ?: "",
+        .str  = arg ? arg : "",
     });
 }
 
