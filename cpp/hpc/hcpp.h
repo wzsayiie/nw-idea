@@ -1,5 +1,6 @@
 #pragma once
 
+#include <functional>
 #include "dbytes.h"
 #include "hsession.h"
 
