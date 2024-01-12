@@ -1,35 +1,36 @@
 #include "cwrite.h"
+#include "dlazy.h"
 
 namespace cson {
 
-static std::string _content;
+static dash::lazy<std::string> _context;
 
 static bool _pretty = false;
 static int  _indent = 0;
 
 void prepare_write_context(bool pretty) {
-    _content.clear();
+    _context->clear();
 
     _pretty = pretty;
     _indent = 0;
 }
 
-void push_inden() { _indent += 1; }
-void pop_inden () { _indent -= 1; }
+void push_indent() { _indent += 1; }
+void pop_indent () { _indent -= 1; }
 
-void write_inden() { if (_pretty) { _content.append(_indent * 4, ' '); } }
-void write_space() { if (_pretty) { _content.append(" ")             ; } }
-void write_endln() { if (_pretty) { _content.append("\n")            ; } }
+void write_indent() { if (_pretty) { _context->append(_indent * 4, ' '); } }
+void write_space () { if (_pretty) { _context->append(" ")             ; } }
+void write_line  () { if (_pretty) { _context->append("\n")            ; } }
 
 void write_token(const char *value) {
-    _content.append(value);
+    _context->append(value);
 }
 
 void write_key(const double &value) {
     //if a number is used as the key of an object, to be expressed as a string type.
-    _content.append("\"");
+    _context->append("\"");
     write_value(value);
-    _content.append("\"");
+    _context->append("\"");
 }
 
 void write_key(const std::string &value) {
@@ -37,7 +38,7 @@ void write_key(const std::string &value) {
 }
 
 void write_value(const bool &value) {
-    _content.append(value ? "true" : "false");
+    _context->append(value ? "true" : "false");
 }
 
 void write_value(const double &value) {
@@ -53,33 +54,33 @@ void write_value(const double &value) {
         end -= 1;
     }
 
-    _content.append(ptr, end);
+    _context->append(ptr, end);
 }
 
 void write_value(const std::string &value) {
-    _content.append("\"");
+    _context->append("\"");
 
     for (char ch : value) {
         switch (ch) {
-            case '\"': _content.append("\\\""); break;
-            case '\\': _content.append("\\\\"); break;
-            case '/' : _content.append("\\/" ); break;
-            case '\b': _content.append("\\b" ); break;
-            case '\f': _content.append("\\f" ); break;
-            case '\n': _content.append("\\n" ); break;
-            case '\r': _content.append("\\r" ); break;
-            case '\t': _content.append("\\t" ); break;
+            case '\"': _context->append("\\\""); break;
+            case '\\': _context->append("\\\\"); break;
+            case '/' : _context->append("\\/" ); break;
+            case '\b': _context->append("\\b" ); break;
+            case '\f': _context->append("\\f" ); break;
+            case '\n': _context->append("\\n" ); break;
+            case '\r': _context->append("\\r" ); break;
+            case '\t': _context->append("\\t" ); break;
 
-            default  : _content.push_back(ch);
+            default  : _context->push_back(ch);
         }
     }
 
-    _content.append("\"");
+    _context->append("\"");
 }
 
 std::string last_write_string() {
     std::string ret;
-    ret.swap(_content);
+    ret.swap(*_context);
     return ret;
 }
 

@@ -8,7 +8,7 @@ namespace cson {
 
 //fields:
 
-template<class Value> class store_field : public encodable_field {
+template<class Value> class generic_field : public encodable_field {
 public:
     using encodable_field::encodable_field;
 
@@ -29,10 +29,10 @@ protected:
     Value _value{};
 };
 
-//for bool, double field.
-template<class Value> class field : public store_field<Value> {
+//specialize for bool, double fields.
+template<class Value> class field : public generic_field<Value> {
 public:
-    using store_field<Value>::store_field;
+    using generic_field<Value>::generic_field;
 
 public:
     void operator=(const Value &value) {
@@ -44,10 +44,10 @@ public:
     }
 };
 
-//for string field.
-template<> class field<std::string> : public store_field<std::string> {
+//specialize for string field.
+template<> class field<std::string> : public generic_field<std::string> {
 public:
-    using store_field<std::string>::store_field;
+    using generic_field<std::string>::generic_field;
 
 public:
     void operator=(const std::string &value) {
@@ -63,12 +63,12 @@ public:
     }
 };
 
-//for object field.
+//specialize for object field.
 template<class Object> class field<std::shared_ptr<Object>>
-    : public store_field<std::shared_ptr<Object>>
+    : public generic_field<std::shared_ptr<Object>>
 {
 public:
-    using store_field<std::shared_ptr<Object>>::store_field;
+    using generic_field<std::shared_ptr<Object>>::generic_field;
 
 public:
     void operator=(const std::shared_ptr<Object> &value) {
@@ -88,12 +88,12 @@ public:
     }
 };
 
-//for map field.
+//specialize for map field.
 template<class Key, class Value> class field<std::map<Key, Value>>
-    : public store_field<std::shared_ptr<std::map<Key, Value>>>
+    : public generic_field<std::shared_ptr<std::map<Key, Value>>>
 {
 public:
-    using store_field<std::shared_ptr<std::map<Key, Value>>>::store_field;
+    using generic_field<std::shared_ptr<std::map<Key, Value>>>::generic_field;
 
 public:
     void operator=(const std::shared_ptr<std::map<Key, Value>> &value) {
@@ -121,12 +121,12 @@ public:
     }
 };
 
-//for vector field.
+//specialize for vector field.
 template<class Item> class field<std::vector<Item>>
-    : public store_field<std::shared_ptr<std::vector<Item>>>
+    : public generic_field<std::shared_ptr<std::vector<Item>>>
 {
 public:
-    using store_field<std::shared_ptr<std::vector<Item>>>::store_field;
+    using generic_field<std::shared_ptr<std::vector<Item>>>::generic_field;
 
 public:
     void operator=(const std::shared_ptr<std::vector<Item>> &value) {
@@ -158,18 +158,20 @@ public:
 
 template<class Class> class object : public encodable_object {
 public:
+    //NOTE: "ptr" points to "Class", not "object<Class>".
     typedef std::shared_ptr<Class> ptr;
 
 public:
     static ptr create() {
         auto obj = std::make_shared<Class>();
+        //IMPORTANT: collect fields.
         obj->collect();
         return obj;
     }
 
 public:
-    void decode(const std::string &text, std::string *error) {
-        clear();
+    void decode(const std::string &text, std::string *error = nullptr) {
+        this->clear();
 
         try {
             const char *bgn = text.c_str();
@@ -191,7 +193,7 @@ public:
     }
 
     void clear() {
-        for (const auto &pair : fields()) {
+        for (const auto &pair : this->fields()) {
             pair.second->on_clear();
         }
     }

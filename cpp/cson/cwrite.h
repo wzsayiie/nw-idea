@@ -7,11 +7,11 @@ namespace cson {
 
 void prepare_write_context(bool pretty);
 
-void push_inden ();
-void pop_inden  ();
-void write_inden();
-void write_space();
-void write_endln();
+void push_indent ();
+void pop_indent  ();
+void write_indent();
+void write_space ();
+void write_line  ();
 
 void write_token(const char        *value);
 void write_key  (const double      &value);
@@ -39,27 +39,27 @@ template<> struct writer<encodable_object *> {
         }
 
         write_token("{");
-        write_endln();
+        write_line();
 
         const std::map<std::string, encodable_field *> &fields = obj->fields();
 
-        push_inden();
+        push_indent();
         for (auto it = fields.begin(); it != fields.end(); ) {
-            write_inden();
-            write_key  (it->first);
-            write_token(":");
-            write_space();
+            write_indent();
+            write_key   (it->first);
+            write_token (":");
+            write_space ();
 
             it->second->on_encode();
 
             if (++it != fields.end()) {
                 write_token(",");
             }
-            write_endln();
+            write_line();
         }
-        pop_inden();
+        pop_indent();
 
-        write_inden();
+        write_indent();
         write_token("}");
     }
 };
@@ -71,9 +71,7 @@ template<class Object> struct writer<std::shared_ptr<Object>> {
 };
 
 //for map.
-template<class Key, class Value>
-    struct writer<std::shared_ptr<std::map<Key, Value>>>
-{
+template<class Key, class Value> struct writer<std::shared_ptr<std::map<Key, Value>>> {
     static void write(const std::shared_ptr<std::map<Key, Value>> &map) {
         if (!map || map->empty()) {
             write_token("{}");
@@ -81,33 +79,31 @@ template<class Key, class Value>
         }
 
         write_token("{");
-        write_endln();
+        write_line();
 
-        push_inden();
+        push_indent();
         for (auto it = map->begin(); it != map->end(); ) {
-            write_inden();
-            write_key  (it->first);
-            write_token(":");
-            write_space();
+            write_indent();
+            write_key   (it->first);
+            write_token (":");
+            write_space ();
 
             writer<Value>::write(it->second);
 
             if (++it != map->end()) {
                 write_token(",");
             }
-            write_endln();
+            write_line();
         }
-        pop_inden();
+        pop_indent();
 
-        write_inden();
+        write_indent();
         write_token("}");
     }
 };
 
 //for vector.
-template<class Item>
-    struct writer<std::shared_ptr<std::vector<Item>>>
-{
+template<class Item> struct writer<std::shared_ptr<std::vector<Item>>> {
     static void write(const std::shared_ptr<std::vector<Item>> &vector) {
         if (!vector || vector->empty()) {
             write_token("[]");
@@ -115,21 +111,21 @@ template<class Item>
         }
 
         write_token("[");
-        write_endln();
+        write_line();
 
-        push_inden();
+        push_indent();
         for (auto it = vector->begin(); it != vector->end(); ) {
-            write_inden();
+            write_indent();
             writer<Item>::write(*it);
 
             if (++it != vector->end()) {
                 write_token(",");
             }
-            write_endln();
+            write_line();
         }
-        pop_inden();
+        pop_indent();
 
-        write_inden();
+        write_indent();
         write_token("]");
     }
 };

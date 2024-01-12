@@ -148,9 +148,7 @@ template<class Object> struct value_reader<std::shared_ptr<Object>> {
     }
 };
 
-template<class Key, class Value>
-    struct value_reader<std::shared_ptr<std::map<Key, Value>>>
-{
+template<class Key, class Value> struct value_reader<std::shared_ptr<std::map<Key, Value>>> {
     static std::shared_ptr<std::map<Key, Value>> read() {
         //do not distinguish between "null", "undefined" and empty map.
         if (try_read_empty('{', '}')) {
@@ -177,9 +175,7 @@ template<class Key, class Value>
     }
 };
 
-template<class Item>
-    struct value_reader<std::shared_ptr<std::vector<Item>>>
-{
+template<class Item> struct value_reader<std::shared_ptr<std::vector<Item>>> {
     static std::shared_ptr<std::vector<Item>> read() {
         if (try_read_empty('[', ']')) {
             return std::shared_ptr<std::vector<Item>>();
