@@ -5,33 +5,58 @@
 #include <map>
 #include <string>
 #include <vector>
+#include "dbytes.h"
+#include "dobject.h"
 
-class HPCParam {
+class HPCParam : public dash::extends<HPCParam, dash::object> {
 public:
-    HPCParam();
-    HPCParam(const HPCParam &that);
-    HPCParam(HPCParam &&that);
     ~HPCParam();
 
 public:
-    void reset(int64_t sid);
-    int64_t sessionID() const;
+    void setSessionID(int64_t sid);
+    int64_t sessionID();
 
     void setProcedureName(const char *name);
-    std::string procedureName() const;
+    std::string procedureName();
 
     void setCallbackID(int64_t callbackID);
-    int64_t callbackID() const;
+    int64_t callbackID();
 
     void setValues(const std::map<std::string, std::any> &values);
     void setValues(const std::vector<std::any> &values);
-    void setValue(const char *key, const std::any &value);
-    void setValue(int index, const std::any &value);
-    std::any value(const char *key) const;
-    std::any value(int index) const;
 
-    void setReturned(const std::any &value);
-    std::any returned() const;
+    void setValue(const char *key, bool               value);
+    void setValue(const char *key, int                value);
+    void setValue(const char *key, int64_t            value);
+    void setValue(const char *key, float              value);
+    void setValue(const char *key, double             value);
+    void setValue(const char *key, const char        *value);
+    void setValue(const char *key, const std::string &value);
+    void setValue(const char *key, const dash::bytes &value);
+
+    std::any value(const char *key);
+
+    void setValue(int index, bool               value);
+    void setValue(int index, int                value);
+    void setValue(int index, int64_t            value);
+    void setValue(int index, float              value);
+    void setValue(int index, double             value);
+    void setValue(int index, const char        *value);
+    void setValue(int index, const std::string &value);
+    void setValue(int index, const dash::bytes &value);
+
+    std::any value(int index);
+
+    void returnValue(bool               value);
+    void returnValue(int                value);
+    void returnValue(int64_t            value);
+    void returnValue(float              value);
+    void returnValue(double             value);
+    void returnValue(const char        *value);
+    void returnValue(const std::string &value);
+    void returnValue(const dash::bytes &value);
+
+    std::any returned();
 
 private:
     int64_t _sessionID = 0;
