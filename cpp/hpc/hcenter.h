@@ -25,17 +25,17 @@ struct _HAdder {
 
 struct HCenter {
     static std::any call(
-        const char                                        *name,
-        const std::map<std::string, std::any>             &args,
+        const char                                      *name,
+        const std::map<std::string, std::any>           &args,
         const std::function<void (const HParam::ptr &)> &callback
     );
     static std::any call(
-        const char                                        *name,
-        const std::vector<std::any>                       &args,
+        const char                                      *name,
+        const std::vector<std::any>                     &args,
         const std::function<void (const HParam::ptr &)> &callback
     );
     static std::any call(
-        const char                                        *name,
+        const char                                      *name,
         const std::function<void (const HParam::ptr &)> &callback
     );
 

@@ -78,7 +78,7 @@ _HAdder::_HAdder(const char *n, std::string (*p)()) { add(n, [=](auto s) { s->re
 _HAdder::_HAdder(const char *n, dash::bytes (*p)()) { add(n, [=](auto s) { s->returnValue(p());         }); }
 
 static std::any callProcedure(
-    const char                                        *name,
+    const char                                      *name,
     const HParam::ptr                               &param,
     const std::function<void (const HParam::ptr &)> &callback)
 {
@@ -96,8 +96,8 @@ static std::any callProcedure(
 }
 
 std::any HCenter::call(
-    const char                                        *name,
-    const std::map<std::string, std::any>             &args,
+    const char                                      *name,
+    const std::map<std::string, std::any>           &args,
     const std::function<void (const HParam::ptr &)> &callback)
 {
     auto param = HParam::create();
@@ -106,8 +106,8 @@ std::any HCenter::call(
 }
 
 std::any HCenter::call(
-    const char                                        *name,
-    const std::vector<std::any>                       &args,
+    const char                                      *name,
+    const std::vector<std::any>                     &args,
     const std::function<void (const HParam::ptr &)> &callback)
 {
     auto param = HParam::create();
@@ -116,7 +116,7 @@ std::any HCenter::call(
 }
 
 std::any HCenter::call(
-    const char                                        *name,
+    const char                                      *name,
     const std::function<void (const HParam::ptr &)> &callback)
 {
     auto param = HParam::create();
