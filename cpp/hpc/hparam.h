@@ -8,9 +8,9 @@
 #include "dbytes.h"
 #include "dobject.h"
 
-class HPCParam : public dash::extends<HPCParam, dash::object> {
+class HParam : public dash::extends<HParam, dash::object> {
 public:
-    ~HPCParam();
+    ~HParam();
 
 public:
     void setSessionID(int64_t sid);
@@ -31,7 +31,6 @@ public:
     void setValue(const char *key, float              value);
     void setValue(const char *key, double             value);
     void setValue(const char *key, const char        *value);
-    void setValue(const char *key, const std::string &value);
     void setValue(const char *key, const dash::bytes &value);
 
     std::any value(const char *key);
@@ -42,7 +41,6 @@ public:
     void setValue(int index, float              value);
     void setValue(int index, double             value);
     void setValue(int index, const char        *value);
-    void setValue(int index, const std::string &value);
     void setValue(int index, const dash::bytes &value);
 
     std::any value(int index);
@@ -53,7 +51,6 @@ public:
     void returnValue(float              value);
     void returnValue(double             value);
     void returnValue(const char        *value);
-    void returnValue(const std::string &value);
     void returnValue(const dash::bytes &value);
 
     std::any returned();

@@ -1,25 +1,25 @@
 #include "mapp.h"
 #include "dlazy.h"
-#include "hpccenter.h"
+#include "hcenter.h"
 #include "rdefine.h"
 
 static dash::lazy<std::vector<reflect::function<void ()>::ptr>> sResumeListeners;
 static dash::lazy<std::vector<reflect::function<void ()>::ptr>> sUpdateListeners;
 static dash::lazy<std::vector<reflect::function<void ()>::ptr>> sPauseListeners ;
 
-HPCCallableProcedure(_MAppLaunch)
+HCallableProcedure(_MAppLaunch)
 void _MAppLaunch() {
 }
 
-HPCCallableProcedure(_MAppResume)
-HPCCallableProcedure(_MAppUpdate)
-HPCCallableProcedure(_MAppPause )
+HCallableProcedure(_MAppResume)
+HCallableProcedure(_MAppUpdate)
+HCallableProcedure(_MAppPause )
 
 void _MAppResume() { for (const auto f : *sResumeListeners) { f->call(); } }
 void _MAppUpdate() { for (const auto f : *sUpdateListeners) { f->call(); } }
 void _MAppPause () { for (const auto f : *sPauseListeners ) { f->call(); } }
 
-HPCCallableProcedure(_MAppUpdateInterval)
+HCallableProcedure(_MAppUpdateInterval)
 double _MAppUpdateInterval() {
     return 0.1;
 }

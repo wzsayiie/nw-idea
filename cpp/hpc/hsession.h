@@ -1,8 +1,8 @@
 #pragma once
 
-#include "hpcparam.h"
+#include "hparam.h"
 
-class HPCSession : public dash::extends<HPCSession, HPCParam> {
+class HSession : public dash::extends<HSession, HParam> {
 public:
     void callback(const std::map<std::string, std::any> &args);
     void callback(const std::vector<std::any> &args);
