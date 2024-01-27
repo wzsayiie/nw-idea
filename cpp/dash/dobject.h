@@ -47,23 +47,32 @@ public:
 public:
     template<class... Args> static ptr create(Args... args) {
         auto obj = std::make_shared<Class>(args...);
-        obj->_weak = obj;
+        obj->set_weak_me(obj);
         return obj;
     }
 
 public:
     ptr me() const {
-        return std::static_pointer_cast<Class>(this->_weak.lock());
+        return std::static_pointer_cast<Class>(this->weak_me().lock());
     }
 };
 
 class _shared_object
     : public extends<_shared_object, _basic_object, _shared_object_generic>
 {
-    template<class, class> friend class _shared_object_generic;
+protected:
+    void set_weak_me(const std::weak_ptr<_shared_object> &me) {
+        if (_weak_me.expired()) { //only assign once.
+            _weak_me = me;
+        }
+    }
+
+    std::weak_ptr<_shared_object> weak_me() const {
+        return _weak_me;
+    }
 
 private:
-    std::weak_ptr<_shared_object> _weak;
+    std::weak_ptr<_shared_object> _weak_me;
 };
 
 //object.
