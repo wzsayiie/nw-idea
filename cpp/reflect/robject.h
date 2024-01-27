@@ -16,7 +16,7 @@ template<class Class, class Base> class _object_generic
 {
 public:
     virtual symbol class_symbol() const {
-        return symbol_of<object>::value();
+        return symbol_of<Class>::value();
     }
 };
 
