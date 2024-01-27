@@ -40,19 +40,12 @@ public:
     void   set_injected_symbol(const symbol &sym);
     symbol injected_symbol    () const;
 
-public:
-    //delete resources manually.
-    //avoid circular references for cross-language calls.
-    void dispose();
+protected:
+    void on_dispose() override;
 
-private:
-    virtual void on_dispose();
-    
 private:
     function_table::ptr _injected_fcns;
     symbol              _injected_sym ;
-
-    bool _disposed = false;
 };
 
 } //end reflect.

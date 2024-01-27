@@ -23,6 +23,16 @@ public:
 class object
     : public dash::extends<object, dash::object, _object_generic>
 {
+public:
+    //delete resources manually.
+    //avoid circular references for cross-language calls.
+    void dispose();
+
+protected:
+    virtual void on_dispose();
+
+private:
+    bool _disposed = false;
 };
 
 //cast.

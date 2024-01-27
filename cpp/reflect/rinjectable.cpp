@@ -131,14 +131,8 @@ symbol injectable::injected_symbol() const {
     return _injected_sym;
 }
 
-void injectable::dispose() {
-    if (!_disposed) {
-        _disposed = true;
-        on_dispose();
-    }
-}
-
 void injectable::on_dispose() {
+    base::on_dispose();
     _injected_fcns = nullptr;
 }
 
