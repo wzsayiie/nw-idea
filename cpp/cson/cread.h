@@ -5,11 +5,14 @@
 
 namespace cson {
 
-void prepare_read_context(const char *begin, const char *end) noexcept;
+void prepare_read_context(const char *begin, const char *end);
 
-bool try_read_empty(char first, char last) noexcept;
-bool try_read_token(const char *token) noexcept;
-char look_forward() noexcept;
+bool try_read_empty(char first, char last);
+bool try_read_token(const char *token);
+char look_forward();
+
+//NOTE:
+//the following functions may throw a string type exception.
 
 void read_token(const char *token);
 

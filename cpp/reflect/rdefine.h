@@ -42,15 +42,15 @@ namespace reflect {
 class generator {
 public:
     //global constant:
-    generator(const char *n, const char *v) noexcept { commit_variable(n, symbol_of<std::string>::value(), v); }
-    generator(const char *n, double      v) noexcept { commit_variable(n, symbol_of<double     >::value(), v); }
-    generator(const char *n, float       v) noexcept { commit_variable(n, symbol_of<float      >::value(), v); }
-    generator(const char *n, int64_t     v) noexcept { commit_variable(n, symbol_of<int64_t    >::value(), v); }
-    generator(const char *n, int         v) noexcept { commit_variable(n, symbol_of<int        >::value(), v); }
+    generator(const char *n, const char *v) { commit_variable(n, symbol_of<std::string>::value(), v); }
+    generator(const char *n, double      v) { commit_variable(n, symbol_of<double     >::value(), v); }
+    generator(const char *n, float       v) { commit_variable(n, symbol_of<float      >::value(), v); }
+    generator(const char *n, int64_t     v) { commit_variable(n, symbol_of<int64_t    >::value(), v); }
+    generator(const char *n, int         v) { commit_variable(n, symbol_of<int        >::value(), v); }
 
     //global function.
     template<class Ret, class... Args> generator(
-        const char *name, Ret (*fcn)(Args...), const char *note = nullptr) noexcept
+        const char *name, Ret (*fcn)(Args...), const char *note = nullptr)
     {
         symbol type = extract<typename function<Ret (Args...)>::ptr>::commit();
         
@@ -60,15 +60,15 @@ public:
     }
 
     //class static constant:
-    template<class C> generator(C *, const char *n, const char *v) noexcept { cls_var<C, std::string>(n, v); }
-    template<class C> generator(C *, const char *n, double      v) noexcept { cls_var<C, double     >(n, v); }
-    template<class C> generator(C *, const char *n, float       v) noexcept { cls_var<C, float      >(n, v); }
-    template<class C> generator(C *, const char *n, int64_t     v) noexcept { cls_var<C, int64_t    >(n, v); }
-    template<class C> generator(C *, const char *n, int         v) noexcept { cls_var<C, int        >(n, v); }
+    template<class C> generator(C *, const char *n, const char *v) { cls_var<C, std::string>(n, v); }
+    template<class C> generator(C *, const char *n, double      v) { cls_var<C, double     >(n, v); }
+    template<class C> generator(C *, const char *n, float       v) { cls_var<C, float      >(n, v); }
+    template<class C> generator(C *, const char *n, int64_t     v) { cls_var<C, int64_t    >(n, v); }
+    template<class C> generator(C *, const char *n, int         v) { cls_var<C, int        >(n, v); }
 
     //class static function.
     template<class Ret, class Class, class... Args> generator(
-        Class *, const char *name, Ret (*fcn)(Args...), const char *note = nullptr) noexcept
+        Class *, const char *name, Ret (*fcn)(Args...), const char *note = nullptr)
     {
         symbol bas_type = extract<typename base_of<Class>::type>::commit();
         symbol cls_type = extract<typename Class::ptr>::commit();
@@ -85,7 +85,7 @@ public:
 
     //class instance function.
     template<class Ret, class Class, class... Args> generator(
-        Class *, const char *name, Ret (Class::*fcn)(Args...), const char *note = nullptr) noexcept
+        Class *, const char *name, Ret (Class::*fcn)(Args...), const char *note = nullptr)
     {
         symbol bas_type = extract<typename base_of<Class>::type>::commit();
         symbol cls_type = extract<typename Class::ptr>::commit();
@@ -101,7 +101,7 @@ public:
     }
 
     //enumeration value.
-    template<class Enum> generator(Enum, const char *name, int value) noexcept {
+    template<class Enum> generator(Enum, const char *name, int value) {
         symbol enum_type = extract<Enum>::commit();
         symbol memb_type = symbol_of<int>::value();
 

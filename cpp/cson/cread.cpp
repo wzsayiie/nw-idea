@@ -29,12 +29,12 @@ static void throw_except(const char *want) {
     throw stream.str();
 }
 
-void prepare_read_context(const char *begin, const char *end) noexcept {
+void prepare_read_context(const char *begin, const char *end) {
     _cur = begin;
     _end = end;
 }
 
-bool try_read_empty(char first, char last) noexcept {
+bool try_read_empty(char first, char last) {
     skip_space();
 
     if (_cur + 9 < _end && strncmp(_cur, "undefined", 9) == 0) {
@@ -62,7 +62,7 @@ bool try_read_empty(char first, char last) noexcept {
     return false;
 }
 
-bool try_read_token(const char *token) noexcept {
+bool try_read_token(const char *token) {
     skip_space();
 
     size_t len = strlen(token);
@@ -73,7 +73,7 @@ bool try_read_token(const char *token) noexcept {
     return false;
 }
 
-char look_forward() noexcept {
+char look_forward() {
     skip_space();
 
     if (_cur < _end) {
