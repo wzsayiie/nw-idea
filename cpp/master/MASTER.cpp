@@ -1,4 +1,4 @@
-#include "mapp.h"
+#include "MASTER.h"
 
 void master_main() {
 }

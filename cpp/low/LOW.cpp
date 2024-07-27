@@ -1,6 +1,4 @@
-#include "lcall.h"
-#include "lcpp.h"
-#include "lreg.h"
+#include "LOW.h"
 
 void low_main() {
 }
