@@ -10,10 +10,8 @@ set _mkmk_=..\..\mkmk
 
 set _dirs_=           ^
     ../../cpp/master  ^
-    ../../cpp/cson    ^
     ../../cpp/dash    ^
-    ../../cpp/hpc     ^
-    ../../cpp/nanojs  ^
+    ../../cpp/low     ^
     ../../cpp/reflect
 
 call ..\..\mkbuild.bat

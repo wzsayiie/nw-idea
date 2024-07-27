@@ -1,46 +1,44 @@
 #include "mapp.h"
 #include "dlazy.h"
-#include "hcenter.h"
+#include "lcpp.h"
+#include "lreg.h"
 #include "rdefine.h"
 
-static dash::lazy<std::vector<reflect::function<void ()>::ptr>> sResumeListeners;
-static dash::lazy<std::vector<reflect::function<void ()>::ptr>> sUpdateListeners;
-static dash::lazy<std::vector<reflect::function<void ()>::ptr>> sPauseListeners ;
+static dash::lazy<std::map<char, std::vector<reflect::function<void ()>::ptr>>> sListeners;
 
-HCallableProcedure(_MAppLaunch)
-void _MAppLaunch() {
+static void Add(char event, const reflect::function<void ()>::ptr &listener) {
+    if (listener) {
+        (*sListeners)[event].push_back(listener);
+    }
 }
 
-HCallableProcedure(_MAppResume)
-HCallableProcedure(_MAppUpdate)
-HCallableProcedure(_MAppPause )
-
-void _MAppResume() { for (const auto f : *sResumeListeners) { f->call(); } }
-void _MAppUpdate() { for (const auto f : *sUpdateListeners) { f->call(); } }
-void _MAppPause () { for (const auto f : *sPauseListeners ) { f->call(); } }
-
-HCallableProcedure(_MAppUpdateInterval)
-double _MAppUpdateInterval() {
-    return 0.1;
+static void Call(char event) {
+    for (auto it : (*sListeners)[event]) {
+        it->call();
+    }
 }
 
 define_reflectable_function(MAppAddResumeListener, "args:listener")
-void MAppAddResumeListener(const reflect::function<void ()>::ptr &listener) {
-    if (listener) {
-        sResumeListeners->push_back(listener);
-    }
-}
-
 define_reflectable_function(MAppAddUpdateListener, "args:listener")
-void MAppAddUpdateListener(const reflect::function<void ()>::ptr &listener) {
-    if (listener) {
-        sUpdateListeners->push_back(listener);
-    }
+define_reflectable_function(MAppAddPauseListener , "args:listener")
+
+void MAppAddResumeListener(const reflect::function<void ()>::ptr &l) { Add('R', l); }
+void MAppAddUpdateListener(const reflect::function<void ()>::ptr &l) { Add('U', l); }
+void MAppAddPauseListener (const reflect::function<void ()>::ptr &l) { Add('P', l); }
+
+define_low_function(_MAppLaunch)
+void _MAppLaunch() {
 }
 
-define_reflectable_function(MAppAddPauseListener, "args:listener")
-void MAppAddPauseListener(const reflect::function<void ()>::ptr &listener) {
-    if (listener) {
-        sPauseListeners ->push_back(listener);
-    }
+define_low_function(_MAppResume)
+define_low_function(_MAppUpdate)
+define_low_function(_MAppPause )
+
+void _MAppResume() { Call('R'); }
+void _MAppUpdate() { Call('U'); }
+void _MAppPause () { Call('P'); }
+
+define_low_function(_MAppUpdateInterval)
+void _MAppUpdateInterval() {
+    low::dr = 0.1;
 }
