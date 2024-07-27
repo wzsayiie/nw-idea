@@ -1,17 +1,11 @@
 #include "cencodable.h"
 #include <cassert>
-#include "ddefine.h"
 #include "dlazy.h"
 
 namespace cson {
 
-static d_define(_objects, dash::lazy<
-    std::map<const encodable_object *, std::map<std::string, encodable_field *> *>
->);
-
-static d_define(*_collecting_fields = nullptr,
-    std::map<std::string, encodable_field *>
-);
+static dash::lazy<std::map<const encodable_object *, std::map<std::string, encodable_field *> *>> _objects;
+static std::map<std::string, encodable_field *> *_collecting_fields = nullptr;
 
 encodable_field::encodable_field(const char *name) {
     //STEP 2: insert fields:
