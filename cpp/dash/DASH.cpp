@@ -1,4 +1,5 @@
 #include "DASH.h"
 
-void dash_main() {
+int dash_main() {
+    return 0;
 }

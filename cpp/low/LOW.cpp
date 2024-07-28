@@ -1,4 +1,5 @@
 #include "LOW.h"
 
-void low_main() {
+int low_main() {
+    return 0;
 }

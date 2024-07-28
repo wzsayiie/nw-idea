@@ -2,15 +2,13 @@
 
 cd `dirname $0`
 
-export _exec=app.exe
-export _objd=obj
-export _mkmk=../../mkmk
+export defm=-Dmaster_main=main
 
-export _dirs="        \
-    ../../cpp/master  \
-    ../../cpp/dash    \
-    ../../cpp/low     \
-    ../../cpp/reflect \
+export srcd="           \
+    ../../cpp/master    \
+    ../../cpp/dash      \
+    ../../cpp/low       \
+    ../../cpp/reflect   \
 "
 
 sh ../../mkbuild

@@ -2,6 +2,5 @@
 
 cproject/*/makefile
 cproject/*/obj/
-cproject/*/app.exe
-
+cproject/*/out.exe
 mkmk.exe

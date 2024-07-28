@@ -2,14 +2,12 @@
 
 cd `dirname $0`
 
-export _exec=app.exe
-export _objd=obj
-export _mkmk=../../mkmk
+export defm=-Dui_main=main
 
-export _dirs="        \
-    ../../cpp/ui      \
-    ../../cpp/dash    \
-    ../../cpp/reflect \
+export srcd="           \
+    ../../cpp/ui        \
+    ../../cpp/dash      \
+    ../../cpp/reflect   \
 "
 
 sh ../../mkbuild

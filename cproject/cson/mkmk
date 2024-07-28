@@ -2,13 +2,11 @@
 
 cd `dirname $0`
 
-export _exec=app.exe
-export _objd=obj
-export _mkmk=../../mkmk
+export defm=-Dcson_main=main
 
-export _dirs="     \
-    ../../cpp/cson \
-    ../../cpp/dash \
+export srcd="       \
+    ../../cpp/cson  \
+    ../../cpp/dash  \
 "
 
 sh ../../mkbuild

@@ -2,9 +2,10 @@
 
 cd `dirname $0`
 
-export _exec=app.exe
-export _objd=obj
-export _mkmk=../../mkmk
-export _dirs=../../cpp/dash
+export defm=-Ddash_main=main
+
+export srcd="       \
+    ../../cpp/dash  \
+"
 
 sh ../../mkbuild

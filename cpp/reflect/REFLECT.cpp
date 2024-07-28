@@ -1,4 +1,5 @@
 #include "REFECT.h"
 
-void reflect_main() {
+int reflect_main() {
+    return 0;
 }

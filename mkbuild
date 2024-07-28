@@ -1,30 +1,28 @@
 #!/bin/zsh
 
 # these parameters need to be provided externally:
-#   _exec: excutable file;
-#   _objd: object directory;
-#   _mkmk: mkmk tool;
-#   _dirs: source directories.
-
-# create object directory.
-mkdir -p $_objd
+#   srcd: header and source directories;
+#   defm: defined macros.
 
 # build mkmk tool.
-if [ ! -f $_mkmk.exe ]; then
-    c++ --std=c++20 -O3 -o $_mkmk.exe $_mkmk.cpp
+mkmk=`dirname $0`/mkmk
+if [ ! -f $mkmk.exe ]; then
+    c++ --std=c++20 -O3 -o $mkmk.exe $mkmk.cpp
 fi
 
 # generate makefile:
-declare _incs=
-for item in $_dirs; do
-    _incs="$_incs -I$item"
+incd=
+for item in $srcd; do
+    incd="$incd -I$item"
 done
 
-$_mkmk.exe \
-    --compile-cmd "c++ --std=c++20 -c $_incs -o " \
-    --link-cmd    "c++ -o " \
-    --output-file $_exec    \
-    --object-dir  $_objd    \
-    --header-dirs $_dirs    \
-    --source-dirs $_dirs .  \
+mkdir -p obj
+
+$mkmk.exe                                               \
+    --compile-cmd "c++ $defm $incd --std=c++20 -c -o "  \
+    --link-cmd    "c++ -o "                             \
+    --header-dirs $srcd                                 \
+    --source-dirs $srcd                                 \
+    --output-file out.exe                               \
+    --object-dir  obj                                   \
     > makefile

@@ -1,4 +1,5 @@
 #include "MASTER.h"
 
-void master_main() {
+int master_main() {
+    return 0;
 }

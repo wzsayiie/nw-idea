@@ -1,4 +1,5 @@
 #include "UI.h"
 
-void ui_main() {
+int ui_main() {
+    return 0;
 }
