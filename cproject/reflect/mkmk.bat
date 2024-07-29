@@ -4,12 +4,10 @@ setlocal
 
 cd /d %~dp0
 
-set _exec_=app.exe
-set _objd_=obj
-set _mkmk_=..\..\mkmk
+set defm=/Dreflect_main=main
 
-set _dirs_=           ^
-    ../../cpp/reflect ^
+set srcd=               ^
+    ../../cpp/reflect   ^
     ../../cpp/dash
 
 call ..\..\mkbuild.bat

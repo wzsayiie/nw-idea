@@ -10,7 +10,7 @@ if [ ! -f $mkmk.exe ]; then
     c++ --std=c++20 -O3 -o $mkmk.exe $mkmk.cpp
 fi
 
-# generate makefile:
+# generate makefile.
 incd=
 for item in $srcd; do
     incd="$incd -I$item"

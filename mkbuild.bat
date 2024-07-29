@@ -1,42 +1,40 @@
 @echo off
 
 ::these parameters need to be provided externally:
-::  _exec_: excutable file;
-::  _objd_: object directory;
-::  _mkmk_: mkmk tool;
-::  _dirs_: source directories.
+::  srcd: header and source directories;
+::  defm: defined macros.
 
 setlocal EnableDelayedExpansion
 
-::create object directory.
-if not exist %_objd_% (
-    mkdir %_objd_%
-)
-
 ::build mkmk tool.
-if not exist %_mkmk_%.exe (
-    call cl ^
-        /nologo /Ox /EHsc /std:c++20 ^
-        /Fo%_mkmk_%.obj ^
-        /Fe%_mkmk_%.exe ^
-        %_mkmk_%.cpp
+set mkmk=%~dp0\mkmk
+if not exist %mkmk%.exe (
+    call cl                             ^
+        /nologo /Ox /EHsc /std:c++20    ^
+        /Fo%mkmk%.obj                   ^
+        /Fe%mkmk%.exe                   ^
+        %mkmk%.cpp
 
-    del %_mkmk_%.obj
+    del %mkmk%.obj
 )
 
-::generate makefile:
-set _incs_=
-for %%i in (%_dirs_%) do (
-    set _incs_=!_incs_! /I%%i
+::generate makefile.
+set incd=
+for %%i in (%srcd%) do (
+    set incd=!incd! /I%%i
 )
 
-call %_mkmk_%.exe ^
-    --compile-cmd "cl /nologo /EHsc /std:c++20 /c %_incs_% /Fo" ^
-    --link-cmd    "link /nologo /noimplib /noexp /out:" ^
-    --output-file %_exec_%   ^
-    --object-dir  %_objd_%   ^
-    --header-dirs %_dirs_%   ^
-    --source-dirs %_dirs_% . ^
+if not exist obj (
+    mkdir obj
+)
+
+call %mkmk%.exe                                                         ^
+    --compile-cmd "cl %defm% %incd% /nologo /EHsc /std:c++20 /c /Fo"    ^
+    --link-cmd    "link /nologo /noimplib /noexp /out:"                 ^
+    --header-dirs %srcd%                                                ^
+    --source-dirs %srcd%                                                ^
+    --output-file out.exe                                               ^
+    --object-dir  obj                                                   ^
     > makefile
 
 endlocal

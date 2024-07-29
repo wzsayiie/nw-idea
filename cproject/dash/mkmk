@@ -3,9 +3,6 @@
 cd `dirname $0`
 
 export defm=-Ddash_main=main
-
-export srcd="       \
-    ../../cpp/dash  \
-"
+export srcd=../../cpp/dash
 
 sh ../../mkbuild

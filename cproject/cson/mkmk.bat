@@ -4,12 +4,10 @@ setlocal
 
 cd /d %~dp0
 
-set _exec_=app.exe
-set _objd_=obj
-set _mkmk_=..\..\mkmk
+set defm=/Dcson_main=main
 
-set _dirs_=        ^
-    ../../cpp/cson ^
+set srcd=           ^
+    ../../cpp/cson  ^
     ../../cpp/dash
 
 call ..\..\mkbuild.bat

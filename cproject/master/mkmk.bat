@@ -4,14 +4,12 @@ setlocal
 
 cd /d %~dp0
 
-set _exec_=app.exe
-set _objd_=obj
-set _mkmk_=..\..\mkmk
+set defm=/Dmaster_main=main
 
-set _dirs_=           ^
-    ../../cpp/master  ^
-    ../../cpp/dash    ^
-    ../../cpp/low     ^
+set srcd=               ^
+    ../../cpp/master    ^
+    ../../cpp/dash      ^
+    ../../cpp/low       ^
     ../../cpp/reflect
 
 call ..\..\mkbuild.bat
