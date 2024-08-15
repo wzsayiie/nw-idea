@@ -5,7 +5,7 @@
     #include <android/log.h>
 
     void dash::print_string(const char *str) {
-        __android_log_write(ANDROID_LOG_INFO, "aaa", str);
+        __android_log_write(ANDROID_LOG_INFO, "zzz", str);
     }
 
 #else
