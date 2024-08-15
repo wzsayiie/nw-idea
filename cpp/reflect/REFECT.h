@@ -1,5 +1,7 @@
 #pragma once
 
+#include "DASH.h"
+
 #include "rany.h"
 #include "rdeclare.h"
 #include "rdefine.h"
