@@ -6,14 +6,14 @@
 namespace low {
 
 struct lambda {
-    void (*proc)(void *);
-    void *param;
+    void (*proc)(int);
+    int param;
 };
 
 static dash::lazy<std::map<std::string, lambda>> _lambdas;
 
-void set(const char *name, void (*proc)(void *), void *param) {
-    if (!name || !proc || !param) {
+void set(const char *name, void (*proc)(int), int param) {
+    if (!name || !proc) {
         return;
     }
 

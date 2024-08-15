@@ -2,13 +2,13 @@
 
 namespace low {
 
-bool        b[4];
-int         i[4];
-int64_t     l[4];
-float       f[4];
-double      d[4];
-std::string s[4];
-dash::bytes v[4];
+bool        b[param_reg_count];
+int         i[param_reg_count];
+int64_t     l[param_reg_count];
+float       f[param_reg_count];
+double      d[param_reg_count];
+std::string s[param_reg_count];
+dash::bytes v[param_reg_count];
 
 bool        br;
 int         ir;
