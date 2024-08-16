@@ -4,3 +4,10 @@ cproject/*/makefile
 cproject/*/obj/
 cproject/*/out.exe
 mkmk.exe
+
+hproject/android/.gradle/
+hproject/android/.idea/
+hproject/android/app/.cxx/
+hproject/android/app/build/
+hproject/android/gradle/wrapper/gradle-wrapper.jar
+hproject/android/local.properties
