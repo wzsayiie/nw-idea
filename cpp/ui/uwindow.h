@@ -10,8 +10,8 @@ public:
     void setTitle(const std::string &title);
     std::string title();
 
-    void setMark(const std::string &mark);
-    std::string mark();
+    void setIdentifier(const std::string &identifier);
+    std::string identifier();
 
     void showWindow();
 
@@ -33,10 +33,33 @@ public:
     std::string fieldText    ();
     bool        fieldFocus   ();
 
-    bool  mouseBegan ();
-    bool  mouseDowned();
-    float mouseX     ();
-    float mouseY     ();
+    bool  cursorBegan ();
+    bool  cursorDowned();
+    float cursorX     ();
+    float cursorY     ();
+
+public:
+    void _handleCreate ();
+    void _handleShow   ();
+    void _handleHide   ();
+    void _handleDestroy();
+
+    void _handleCursorBegin(float x, float y);
+    void _handleCursorWheel(float x, float y, float delta);
+    void _handleCursorRight(float x, float y);
+    void _handleCursorMove (float x, float y, bool downed);
+    void _handleCursorDown (float x, float y);
+    void _handleCursorUp   (float x, float y);
+    void _handleCursorEnd  (float x, float y);
+
+    void _handleKey(UKey key, UModifiers modifiers, char ch);
+
+    void _handleFieldText (const std::string &text);
+    void _handleFieldFocus(bool focus);
+
+    void _handleResize(float w, float h);
+    void _handleGLDraw();
+    void _handleDraw  ();
 
 protected:
     virtual void onCreate ();
@@ -44,14 +67,15 @@ protected:
     virtual void onHide   ();
     virtual void OnDestroy();
 
-    virtual void onMouseBegin(float x, float y);
-    virtual void onMouseWheel(float x, float y, float delta);
-    virtual void onMouseMove (float x, float y, bool downed);
-    virtual void onMouseDown (float x, float y);
-    virtual void onMouseUp   (float x, float y);
-    virtual void onMouseEnd  (float x, float y);
+    virtual void onCursorBegin(float x, float y);
+    virtual void onCursorWheel(float x, float y, float delta);
+    virtual void onCursorRight(float x, float y);
+    virtual void onCursorMove (float x, float y, bool downed);
+    virtual void onCursorDown (float x, float y);
+    virtual void onCursorUp   (float x, float y);
+    virtual void onCursorEnd  (float x, float y);
 
-    virtual void onKey(UKey key, UModifiers modifiers);
+    virtual void onKey(UKey key, UModifiers modifiers, char ch);
 
     virtual void onFieldText (const std::string &text);
     virtual void onFieldFocus(bool focus);
@@ -61,8 +85,8 @@ protected:
     virtual void onDraw  ();
 
 private:
-    std::string mTitle = "";
-    std::string mMark  = "";
+    std::string mTitle      = "";
+    std::string mIdentifier = "";
 
     bool  mCreated = false;
     bool  mShown   = false;
@@ -77,8 +101,8 @@ private:
     std::string mFieldText    = "";
     bool        mFieldFocus   = false;
 
-    bool  mMouseBegan  = false;
-    bool  mMouseDowned = false;
-    float mMouseX      = 0;
-    float mMouseY      = 0;
+    bool  mCursorBegan  = false;
+    bool  mCursorDowned = false;
+    float mCursorX      = 0;
+    float mCursorY      = 0;
 };
