@@ -10,8 +10,12 @@ namespace reflect {
 enum class data_type {
     is_void  ,
     is_bool  ,
-    is_byte  , is_int   , is_int64,
-    is_float , is_double,
+    is_char  ,
+    is_byte  ,
+    is_int   ,
+    is_int64 ,
+    is_float ,
+    is_double,
     is_string,
     is_object,
 };
@@ -26,6 +30,7 @@ public:
     any(nullptr_t);
     
     any(bool               value);
+    any(char               value);
     any(uint8_t            value);
     any(int                value);
     any(int64_t            value);
@@ -56,6 +61,7 @@ public:
     data_type   preferred_type  () const;
     bool        is_numeric_type () const;
     bool        as_bool         () const;
+    char        as_char         () const;
     uint8_t     as_byte         () const;
     int         as_int          () const;
     int64_t     as_int64        () const;
@@ -67,6 +73,7 @@ public:
     object::ptr as_object_shared() const;
 
     operator bool        () const;
+    operator char        () const;
     operator uint8_t     () const;
     operator int         () const;
     operator int64_t     () const;
@@ -107,6 +114,7 @@ public:
 private:
     union data_word {
         bool    as_bool  ;
+        char    as_char  ;
         uint8_t as_byte  ;
         int     as_int   ;
         int64_t as_int64 ;
@@ -184,6 +192,7 @@ template<> struct take<const std::string &> {
 
 template<> struct take<void   > { static void    from(const any &a) { } };
 template<> struct take<bool   > { static bool    from(const any &a) { return a.as_bool  (); } };
+template<> struct take<char   > { static char    from(const any &a) { return a.as_char  (); } };
 template<> struct take<uint8_t> { static uint8_t from(const any &a) { return a.as_byte  (); } };
 template<> struct take<int    > { static int     from(const any &a) { return a.as_int   (); } };
 template<> struct take<int64_t> { static int64_t from(const any &a) { return a.as_int64 (); } };

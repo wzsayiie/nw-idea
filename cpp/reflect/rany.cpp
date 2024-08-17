@@ -9,6 +9,7 @@ any::any(nullptr_t) {
 }
 
 any::any(bool    value) { _type = data_type::is_bool  ; _word.as_bool   = value; }
+any::any(char    value) { _type = data_type::is_char  ; _word.as_char   = value; }
 any::any(uint8_t value) { _type = data_type::is_byte  ; _word.as_byte   = value; }
 any::any(int     value) { _type = data_type::is_int   ; _word.as_int    = value; }
 any::any(int64_t value) { _type = data_type::is_int64 ; _word.as_int64  = value; }
@@ -44,6 +45,7 @@ data_type any::preferred_type() const {
 bool any::is_numeric_type() const {
     switch (_type) {
         case data_type::is_bool  :
+        case data_type::is_char  :
         case data_type::is_byte  :
         case data_type::is_int   :
         case data_type::is_int64 :
@@ -64,6 +66,7 @@ int     any::as_int () const { return (int    )as_int64(); }
 int64_t any::as_int64() const {
     switch (_type) {
         case data_type::is_bool  : return (int64_t)_word.as_bool  ;
+        case data_type::is_char  : return (int64_t)_word.as_char  ;
         case data_type::is_byte  : return (int64_t)_word.as_byte  ;
         case data_type::is_int   : return (int64_t)_word.as_int   ;
         case data_type::is_int64 : return /* ... */_word.as_int64 ;
@@ -81,6 +84,7 @@ float any::as_float() const {
 double any::as_double() const {
     switch (_type) {
         case data_type::is_bool  : return (double)_word.as_bool  ;
+        case data_type::is_char  : return (double)_word.as_char  ;
         case data_type::is_byte  : return (double)_word.as_byte  ;
         case data_type::is_int   : return (double)_word.as_int   ;
         case data_type::is_int64 : return (double)_word.as_int64 ;
