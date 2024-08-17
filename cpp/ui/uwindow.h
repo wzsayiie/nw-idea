@@ -4,6 +4,41 @@
 #include "robject.h"
 #include "ukey.h"
 
+void _UWindowCount (); //() -> void
+void _UWindowAt    (); //(int index) -> void
+void _UWindowRemove(); //(int id) -> void
+
+void _UWindowTitle     (); //() -> string
+void _UWindowIdentifier(); //() -> string
+void _UWindowCreate    (); //() -> void
+void _UWindowShow      (); //() -> void
+void _UWindowHide      (); //() -> void
+void _UWindowDestroy   (); //() -> void
+
+void _UWindowCursorBegin(); //(float x, float y) -> void
+void _UWindowCursorWheel(); //(float x, float y, float delta) -> void
+void _UWindowCursorRight(); //(float x, float y) -> void
+void _UWindowCursorMove (); //(float x, float y, bool downed) -> void
+void _UWindowCursorDown (); //(float x, float y) -> void
+void _UWindowCursorUp   (); //(float x, float y) -> void
+void _UWindowCursorEnd  (); //(float x, float y) -> void
+
+void _UWindowKey(); //(int key, int modifiers) -> void
+
+void _UWindowFieldVisible (); //() -> bool
+void _UWindowFieldX       (); //() -> float
+void _UWindowFieldY       (); //() -> float
+void _UWindowFieldWidth   (); //() -> float
+void _UWindowFieldHeight  (); //() -> float
+void _UWindowFieldSetText (); //(string text) -> void
+void _UWindowFieldText    (); //() -> string
+void _UWindowFieldSetFocus(); //(bool focus) -> void
+void _UWindowFieldFocus   (); //() -> bool
+
+void _UWindowResize(); //(float w, float h) -> void
+void _UWindowGLDraw(); //() -> void
+void _UWindowDraw  (); //() -> void
+
 declare_reflectable_class(UWindow)
 class UWindow : dash::extends<UWindow, reflect::object> {
 public:
