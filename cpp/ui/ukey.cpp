@@ -112,8 +112,8 @@ static char GetShiftChar(char ch) {
     return 0;
 }
 
-define_reflectable_function(UGetChar, "args:key,modifiers")
-char UGetChar(UKey key, UModifiers modifiers) {
+define_reflectable_function(UKeyGetChar, "args:key,modifiers")
+char UKeyGetChar(UKey key, UModifiers modifiers) {
     auto ch = (char)key;
 
     if (modifiers | UModifier_Caps) {

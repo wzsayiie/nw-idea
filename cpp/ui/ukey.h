@@ -91,4 +91,4 @@ const int UModifier_Cmd   = 1 << 2;
 const int UModifier_Ctrl  = 1 << 3;
 const int UModifier_Shift = 1 << 4;
 
-char UGetChar(UKey key, UModifiers modifiers);
+char UKeyGetChar(UKey key, UModifiers modifiers);
