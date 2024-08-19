@@ -1,0 +1,12 @@
+#!/bin/zsh
+
+cd `dirname $0`
+
+export defm=-Dnanojslib_main=main
+
+export srcd="           \
+    ../../vm/nanojslib  \
+    ../../api/dash      \
+"
+
+sh ../../mkwrapper

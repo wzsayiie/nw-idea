@@ -1,13 +1,13 @@
 .DS_Store
 
-cproject/*/makefile
-cproject/*/obj/
-cproject/*/out.exe
-mkmk.exe
+mkgen.exe
+mkprj/*/makefile
+mkprj/*/obj/
+mkprj/*/out.exe
 
-hproject/android/.gradle/
-hproject/android/.idea/
-hproject/android/app/.cxx/
-hproject/android/app/build/
-hproject/android/gradle/wrapper/gradle-wrapper.jar
-hproject/android/local.properties
+hostprj/android/.gradle/
+hostprj/android/.idea/
+hostprj/android/app/.cxx/
+hostprj/android/app/build/
+hostprj/android/gradle/wrapper/gradle-wrapper.jar
+hostprj/android/local.properties

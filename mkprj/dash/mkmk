@@ -1,0 +1,8 @@
+#!/bin/zsh
+
+cd `dirname $0`
+
+export defm=-Ddash_main=main
+export srcd=../../api/dash
+
+sh ../../mkwrapper

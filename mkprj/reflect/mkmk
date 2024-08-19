@@ -1,0 +1,12 @@
+#!/bin/zsh
+
+cd `dirname $0`
+
+export defm=-Dreflect_main=main
+
+export srcd="           \
+    ../../api/reflect   \
+    ../../api/dash      \
+"
+
+sh ../../mkwrapper

@@ -1,0 +1,28 @@
+#!/bin/zsh
+
+# these parameters need to be provided externally:
+#   srcd: header and source directories;
+#   defm: defined macros.
+
+# build mkgen tool.
+mkgen=`dirname $0`/mkgen
+if [ ! -f $mkgen.exe ]; then
+    c++ --std=c++20 -O3 -o $mkgen.exe $mkgen.cpp
+fi
+
+# generate makefile.
+incd=
+for item in $srcd; do
+    incd="$incd -I$item"
+done
+
+mkdir -p obj
+
+$mkgen.exe                                              \
+    --compile-cmd "c++ $defm $incd --std=c++20 -c -o "  \
+    --link-cmd    "c++ -o "                             \
+    --header-dirs $srcd                                 \
+    --source-dirs $srcd                                 \
+    --output-file out.exe                               \
+    --object-dir  obj                                   \
+    > makefile

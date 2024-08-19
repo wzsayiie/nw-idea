@@ -1,0 +1,13 @@
+#!/bin/zsh
+
+cd `dirname $0`
+
+export defm=-Dui_main=main
+
+export srcd="           \
+    ../../api/ui        \
+    ../../api/dash      \
+    ../../api/reflect   \
+"
+
+sh ../../mkwrapper

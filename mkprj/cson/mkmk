@@ -1,0 +1,12 @@
+#!/bin/zsh
+
+cd `dirname $0`
+
+export defm=-Dcson_main=main
+
+export srcd="       \
+    ../../api/cson  \
+    ../../api/dash  \
+"
+
+sh ../../mkwrapper
