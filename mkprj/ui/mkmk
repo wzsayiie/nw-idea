@@ -7,6 +7,7 @@ export defm=-Dui_main=main
 export srcd="           \
     ../../api/ui        \
     ../../api/dash      \
+    ../../api/low       \
     ../../api/reflect   \
 "
 
