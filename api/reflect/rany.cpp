@@ -60,6 +60,7 @@ bool any::as_bool() const {
     return !!as_int64() || !_string.empty() || (bool)_object;
 }
 
+char    any::as_char() const { return (char   )as_int64(); }
 uint8_t any::as_byte() const { return (uint8_t)as_int64(); }
 int     any::as_int () const { return (int    )as_int64(); }
 
@@ -101,6 +102,7 @@ object *    any::as_object_ptr   () const { return _object.get()  ; }
 object::ptr any::as_object_shared() const { return _object        ; }
 
 any::operator bool        () const { return as_bool         (); }
+any::operator char        () const { return as_char         (); }
 any::operator uint8_t     () const { return as_byte         (); }
 any::operator int         () const { return as_int          (); }
 any::operator int64_t     () const { return as_int64        (); }
