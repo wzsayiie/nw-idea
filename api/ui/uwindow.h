@@ -1,29 +1,29 @@
 #pragma once
 
 #include "rdeclare.h"
-#include "robject.h"
+#include "rinjectable.h"
 #include "ukey.h"
 
 void _UWindowCount (); //() -> void
 void _UWindowAt    (); //(int index) -> void
 void _UWindowRemove(); //(int id) -> void
 
-void _UWindowTitle     (); //() -> string
-void _UWindowIdentifier(); //() -> string
-void _UWindowCreate    (); //() -> void
-void _UWindowShow      (); //() -> void
-void _UWindowHide      (); //() -> void
-void _UWindowDestroy   (); //() -> void
+void _UWindowTitle        (); //() -> string
+void _UWindowIdentifier   (); //() -> string
+void _UWindowNotifyCreate (); //() -> void
+void _UWindowNotifyShow   (); //() -> void
+void _UWindowNotifyHide   (); //() -> void
+void _UWindowNotifyDestroy(); //() -> void
 
-void _UWindowCursorBegin(); //(float x, float y) -> void
-void _UWindowCursorWheel(); //(float x, float y, float delta) -> void
-void _UWindowCursorRight(); //(float x, float y) -> void
-void _UWindowCursorMove (); //(float x, float y, bool downed) -> void
-void _UWindowCursorDown (); //(float x, float y) -> void
-void _UWindowCursorUp   (); //(float x, float y) -> void
-void _UWindowCursorEnd  (); //(float x, float y) -> void
+void _UWindowNotifyCursorBegin(); //(float x, float y) -> void
+void _UWindowNotifyCursorWheel(); //(float x, float y, float delta) -> void
+void _UWindowNotifyCursorRight(); //(float x, float y) -> void
+void _UWindowNotifyCursorMove (); //(float x, float y, bool downed) -> void
+void _UWindowNotifyCursorDown (); //(float x, float y) -> void
+void _UWindowNotifyCursorUp   (); //(float x, float y) -> void
+void _UWindowNotifyCursorEnd  (); //(float x, float y) -> void
 
-void _UWindowKey(); //(int key, int modifiers) -> void
+void _UWindowNotifyKey(); //(int key, int modifiers) -> void
 
 void _UWindowFieldVisible (); //() -> bool
 void _UWindowFieldX       (); //() -> float
@@ -35,12 +35,12 @@ void _UWindowFieldText    (); //() -> string
 void _UWindowFieldSetFocus(); //(bool focus) -> void
 void _UWindowFieldFocus   (); //() -> bool
 
-void _UWindowResize(); //(float w, float h) -> void
-void _UWindowGLDraw(); //() -> void
-void _UWindowDraw  (); //() -> void
+void _UWindowNotifyResize(); //(float w, float h) -> void
+void _UWindowNotifyGLDraw(); //() -> void
+void _UWindowNotifyDraw  (); //() -> void
 
 declare_reflectable_class(UWindow)
-class UWindow : dash::extends<UWindow, reflect::object> {
+class UWindow : public dash::extends<UWindow, reflect::injectable> {
 public:
     void setTitle(const std::string &title);
     std::string title();
@@ -60,13 +60,13 @@ public:
     void setFieldText   (const std::string &text);
     void setFieldFocus  (bool focus);
 
-    bool        fieldVisiable();
-    float       fieldX       ();
-    float       fieldY       ();
-    float       fieldWidth   ();
-    float       fieldHeight  ();
-    std::string fieldText    ();
-    bool        fieldFocus   ();
+    bool        fieldVisible();
+    float       fieldX      ();
+    float       fieldY      ();
+    float       fieldWidth  ();
+    float       fieldHeight ();
+    std::string fieldText   ();
+    bool        fieldFocus  ();
 
     bool  cursorBegan ();
     bool  cursorDowned();
@@ -74,29 +74,6 @@ public:
     float cursorY     ();
 
 public:
-    void _handleCreate ();
-    void _handleShow   ();
-    void _handleHide   ();
-    void _handleDestroy();
-
-    void _handleCursorBegin(float x, float y);
-    void _handleCursorWheel(float x, float y, float delta);
-    void _handleCursorRight(float x, float y);
-    void _handleCursorMove (float x, float y, bool downed);
-    void _handleCursorDown (float x, float y);
-    void _handleCursorUp   (float x, float y);
-    void _handleCursorEnd  (float x, float y);
-
-    void _handleKey(UKey key, UModifiers modifiers, char ch);
-
-    void _handleFieldText (const std::string &text);
-    void _handleFieldFocus(bool focus);
-
-    void _handleResize(float w, float h);
-    void _handleGLDraw();
-    void _handleDraw  ();
-
-protected:
     virtual void onCreate ();
     virtual void onShow   ();
     virtual void onHide   ();
@@ -118,6 +95,29 @@ protected:
     virtual void onResize(float w, float h);
     virtual void onGLDraw();
     virtual void onDraw  ();
+
+public:
+    void _notifyCreate ();
+    void _notifyShow   ();
+    void _notifyHide   ();
+    void _notifyDestroy();
+
+    void _notifyCursorBegin(float x, float y);
+    void _notifyCursorWheel(float x, float y, float delta);
+    void _notifyCursorRight(float x, float y);
+    void _notifyCursorMove (float x, float y, bool downed);
+    void _notifyCursorDown (float x, float y);
+    void _notifyCursorUp   (float x, float y);
+    void _notifyCursorEnd  (float x, float y);
+
+    void _notifyKey(UKey key, UModifiers modifiers, char ch);
+
+    void _notifyFieldText (const std::string &text);
+    void _notifyFieldFocus(bool focus);
+
+    void _notifyResize(float w, float h);
+    void _notifyGLDraw();
+    void _notifyDraw  ();
 
 private:
     std::string mTitle      = "";
