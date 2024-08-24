@@ -4,12 +4,11 @@
 #include "rinjectable.h"
 #include "ukey.h"
 
-void _UWindowCount (); //() -> void
-void _UWindowAt    (); //(int index) -> void
-void _UWindowRemove(); //(int id) -> void
+void _UWindowPopUnregistered(); //() -> int
 
 void _UWindowTitle        (); //() -> string
 void _UWindowIdentifier   (); //() -> string
+void _UWindowWantShow     (); //() -> bool
 void _UWindowNotifyCreate (); //() -> void
 void _UWindowNotifyShow   (); //() -> void
 void _UWindowNotifyHide   (); //() -> void
@@ -49,11 +48,17 @@ public:
     std::string identifier();
 
     void showWindow();
+    bool wantShow();
 
     bool  created();
     bool  shown  ();
     float width  ();
     float height ();
+
+    bool  cursorBegan ();
+    bool  cursorDowned();
+    float cursorX     ();
+    float cursorY     ();
 
     void setFieldVisible(bool visible);
     void setFieldRect   (float x, float y, float w, float h);
@@ -68,16 +73,11 @@ public:
     std::string fieldText   ();
     bool        fieldFocus  ();
 
-    bool  cursorBegan ();
-    bool  cursorDowned();
-    float cursorX     ();
-    float cursorY     ();
-
 public:
     virtual void onCreate ();
     virtual void onShow   ();
     virtual void onHide   ();
-    virtual void OnDestroy();
+    virtual void onDestroy();
 
     virtual void onCursorBegin(float x, float y);
     virtual void onCursorWheel(float x, float y, float delta);
@@ -123,10 +123,16 @@ private:
     std::string mTitle      = "";
     std::string mIdentifier = "";
 
-    bool  mCreated = false;
-    bool  mShown   = false;
-    float mWidth   = 0;
-    float mHeight  = 0;
+    bool  mWantShow = false;
+    bool  mCreated  = false;
+    bool  mShown    = false;
+    float mWidth    = 0;
+    float mHeight   = 0;
+
+    bool  mCursorBegan  = false;
+    bool  mCursorDowned = false;
+    float mCursorX      = 0;
+    float mCursorY      = 0;
 
     float       mFieldVisible = false;
     float       mFieldX       = 0;
@@ -135,9 +141,4 @@ private:
     float       mFieldHeight  = 0;
     std::string mFieldText    = "";
     bool        mFieldFocus   = false;
-
-    bool  mCursorBegan  = false;
-    bool  mCursorDowned = false;
-    float mCursorX      = 0;
-    float mCursorY      = 0;
 };
