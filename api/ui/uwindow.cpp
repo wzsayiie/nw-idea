@@ -158,13 +158,12 @@ void _UWindowNotifyCursorRight() {
 
 define_low_function(_UWindowNotifyCursorMove)
 void _UWindowNotifyCursorMove() {
-    int   id     = low::i[0];
-    float x      = low::f[1];
-    float y      = low::f[2];
-    bool  downed = low::b[3];
+    int   id = low::i[0];
+    float x  = low::f[1];
+    float y  = low::f[2];
 
     if (UWindow::ptr window = UWindowGet(id)) {
-        window->_notifyCursorMove(x, y, downed);
+        window->_notifyCursorMove(x, y);
     }
 }
 
@@ -206,10 +205,9 @@ void _UWindowNotifyKey() {
     int  id        = /* ... .. */low::i[0];
     auto key       = (UKey      )low::i[1];
     auto modifiers = (UModifiers)low::i[2];
-    char ch        = UKeyGetChar(key, modifiers);
 
     if (UWindow::ptr window = UWindowGet(id)) {
-        window->_notifyKey(key, modifiers, ch);
+        window->_notifyKey(key, modifiers);
     }
 }
 
@@ -219,6 +217,26 @@ void _UWindowFieldVisible() {
 
     if (UWindow::ptr window = UWindowGet(id)) {
         low::br = window->fieldVisible();
+    }
+    low::br = false;
+}
+
+define_low_function(_UWindowFieldSetFocus)
+void _UWindowFieldSetFocus() {
+    int  id    = low::i[0];
+    bool focus = low::b[1];
+
+    if (UWindow::ptr window = UWindowGet(id)) {
+        window->setFieldFocus(focus);
+    }
+}
+
+define_low_function(_UWindowFieldFocus)
+void _UWindowFieldFocus() {
+    int id = low::i[0];
+
+    if (UWindow::ptr window = UWindowGet(id)) {
+        low::br = window->fieldFocus();
     }
     low::br = false;
 }
@@ -281,26 +299,6 @@ void _UWindowFieldText() {
         low::sr = window->fieldText();
     }
     low::sr = "";
-}
-
-define_low_function(_UWindowFieldSetFocus)
-void _UWindowFieldSetFocus() {
-    int  id    = low::i[0];
-    bool focus = low::b[1];
-
-    if (UWindow::ptr window = UWindowGet(id)) {
-        window->setFieldFocus(focus);
-    }
-}
-
-define_low_function(_UWindowFieldFocus)
-void _UWindowFieldFocus() {
-    int id = low::i[0];
-
-    if (UWindow::ptr window = UWindowGet(id)) {
-        low::br = window->fieldFocus();
-    }
-    low::br = false;
 }
 
 define_low_function(_UWindowNotifyResize)
@@ -385,7 +383,24 @@ float UWindow::cursorY     () { return mCursorY     ; }
 
 define_reflectable_class_function(UWindow, setFieldVisible, "args:visible")
 void UWindow::setFieldVisible(bool visible) {
+    if (mFieldVisible == visible) {
+        return;
+    }
+
     mFieldVisible = visible;
+    if (!visible) {
+        setFieldFocus(false);
+    }
+}
+
+define_reflectable_class_function(UWindow, setFieldFocus, "args:focus")
+void UWindow::setFieldFocus(bool focus) {
+    if (mFieldFocus == focus) {
+        return;
+    }
+
+    mFieldFocus = focus;
+    onFieldFocus(focus);
 }
 
 define_reflectable_class_function(UWindow, setFieldRect, "args:x,y,w,h")
@@ -406,26 +421,21 @@ void UWindow::setFieldText(const std::string &text) {
     onFieldText(text);
 }
 
-define_reflectable_class_function(UWindow, setFieldFocus, "args:focus")
-void UWindow::setFieldFocus(bool focus) {
-    mFieldFocus = focus;
-}
-
 define_reflectable_class_function(UWindow, fieldVisible)
+define_reflectable_class_function(UWindow, fieldFocus  )
 define_reflectable_class_function(UWindow, fieldX      )
 define_reflectable_class_function(UWindow, fieldY      )
 define_reflectable_class_function(UWindow, fieldWidth  )
 define_reflectable_class_function(UWindow, fieldHeight )
 define_reflectable_class_function(UWindow, fieldText   )
-define_reflectable_class_function(UWindow, fieldFocus  )
 
 bool        UWindow::fieldVisible() { return mFieldVisible; }
+bool        UWindow::fieldFocus  () { return mFieldFocus  ; }
 float       UWindow::fieldX      () { return mFieldX      ; }
 float       UWindow::fieldY      () { return mFieldY      ; }
 float       UWindow::fieldWidth  () { return mFieldWidth  ; }
 float       UWindow::fieldHeight () { return mFieldHeight ; }
 std::string UWindow::fieldText   () { return mFieldText   ; }
-bool        UWindow::fieldFocus  () { return mFieldFocus  ; }
 
 define_reflectable_class_function(UWindow, onCreate )
 define_reflectable_class_function(UWindow, onShow   )
@@ -458,14 +468,14 @@ void UWindow::onKey(UKey key, UModifiers modifiers, char ch) {
     implement_injectable_function(void, key, modifiers, ch)
 }
 
-define_reflectable_class_function(UWindow, onFieldText, "args:text")
-void UWindow::onFieldText(const std::string &text) {
-    implement_injectable_function(void, text)
-}
-
 define_reflectable_class_function(UWindow, onFieldFocus, "args:focus")
 void UWindow::onFieldFocus(bool focus) {
     implement_injectable_function(void, focus)
+}
+
+define_reflectable_class_function(UWindow, onFieldText, "args:text")
+void UWindow::onFieldText(const std::string &text) {
+    implement_injectable_function(void, text)
 }
 
 define_reflectable_class_function(UWindow, onResize, "args:w,h")
@@ -520,53 +530,171 @@ void UWindow::_notifyDestroy() {
 }
 
 void UWindow::_notifyCursorBegin(float x, float y) {
-    //TODO.
+    //begin.
+    if (!mCursorBegan) {
+        mCursorBegan = true;
+
+        mCursorX = x;
+        mCursorY = y;
+        onCursorBegin(x, y);
+
+        return;
+    }
+
+    //move.
+    if (mCursorX != x || mCursorY != y) {
+        mCursorX = x;
+        mCursorY = y;
+        onCursorMove(x, y, mCursorDowned);
+    }
 }
 
 void UWindow::_notifyCursorWheel(float x, float y, float delta) {
-    //TODO.
+    //begin -> wheel -> end.
+    if (!mCursorBegan) {
+        mCursorX = x;
+        mCursorY = y;
+
+        mCursorBegan = true ; onCursorBegin(x, y);
+        /* .... .... .... .*/ onCursorWheel(x, y, delta);
+        mCursorBegan = false; onCursorEnd  (x, y);
+
+        return;
+    }
+
+    //move -> wheel.
+    if (mCursorX != x || mCursorY != y) {
+        mCursorX = x;
+        mCursorY = y;
+        onCursorMove(x, y, mCursorDowned);
+    }
+    onCursorWheel(x, y, delta);
 }
 
 void UWindow::_notifyCursorRight(float x, float y) {
-    //TODO.
+    //begin -> right -> end.
+    if (!mCursorBegan) {
+        mCursorX = x;
+        mCursorY = y;
+
+        mCursorBegan = true ; onCursorBegin(x, y);
+        /* .... .... .... .*/ onCursorRight(x, y);
+        mCursorBegan = false; onCursorEnd  (x, y);
+
+        return;
+    }
+
+    //move -> right.
+    if (mCursorX != x || mCursorY != y) {
+        mCursorX = x;
+        mCursorY = y;
+        onCursorMove(x, y, mCursorDowned);
+    }
+    onCursorRight(x, y);
 }
 
-void UWindow::_notifyCursorMove(float x, float y, bool downed) {
-    //TODO.
+void UWindow::_notifyCursorMove(float x, float y) {
+    //begin -> end.
+    if (!mCursorBegan) {
+        mCursorX = x;
+        mCursorY = x;
+
+        mCursorBegan = true ; onCursorBegin(x, y);
+        mCursorBegan = false; onCursorEnd  (x, y);
+
+        return;
+    }
+
+    //move.
+    if (mCursorX != x || mCursorY != y) {
+        mCursorX = x;
+        mCursorY = y;
+        onCursorMove(x, y, mCursorDowned);
+    }
 }
 
 void UWindow::_notifyCursorDown(float x, float y) {
-    //TODO.
+    //begin -> down.
+    if (!mCursorBegan) {
+        mCursorX = x;
+        mCursorY = y;
+
+        mCursorBegan  = true ; onCursorBegin(x, y);
+        mCursorDowned = true ; onCursorDown (x, y);
+
+        return;
+    }
+
+    //move -> down.
+    if (mCursorX != x || mCursorY != y) {
+        mCursorX = x;
+        mCursorY = y;
+        onCursorMove(x, y, mCursorDowned);
+    }
+    mCursorDowned = true;
+    onCursorDown(x, y);
 }
 
 void UWindow::_notifyCursorUp(float x, float y) {
-    //TODO.
+    if (!mCursorDowned) {
+        return;
+    }
+
+    //move -> up.
+    if (mCursorX != x || mCursorY != y) {
+        mCursorX = x;
+        mCursorY = y;
+        onCursorMove(x, y, mCursorDowned);
+    }
+    mCursorDowned = false;
+    onCursorUp(x, y);
 }
 
 void UWindow::_notifyCursorEnd(float x, float y) {
-    //TODO.
+    if (!mCursorBegan) {
+        return;
+    }
+
+    //move -> up -> end.
+    if (mCursorX != x || mCursorY != y) {
+        mCursorX = x;
+        mCursorY = y;
+        onCursorMove(x, y, mCursorDowned);
+    }
+    if (mCursorDowned) {
+        onCursorUp(x, y);
+    }
+    mCursorBegan = false;
+    onCursorEnd(x, y);
 }
 
-void UWindow::_notifyKey(UKey key, UModifiers modifiers, char ch) {
-    //TODO.
-}
-
-void UWindow::_notifyFieldText(const std::string &text) {
-    //TODO.
+void UWindow::_notifyKey(UKey key, UModifiers modifiers) {
+    char ch = UKeyGetChar(key, modifiers);
+    onKey(key, modifiers, ch);
 }
 
 void UWindow::_notifyFieldFocus(bool focus) {
-    //TODO.
+    setFieldFocus(focus);
+}
+
+void UWindow::_notifyFieldText(const std::string &text) {
+    setFieldText(text);
 }
 
 void UWindow::_notifyResize(float w, float h) {
-    //TODO.
+    if (mWidth == w && mHeight == h) {
+        return;
+    }
+
+    mWidth  = w;
+    mHeight = h;
+    onResize(w, h);
 }
 
 void UWindow::_notifyGLDraw() {
-    //TODO.
+    onGLDraw();
 }
 
 void UWindow::_notifyDraw() {
-    //TODO.
+    onDraw();
 }
