@@ -5,7 +5,7 @@ namespace reflect {
 
 //function table:
 
-static dash::lazy<std::map<symbol, function_table::ptr>> s_tables;
+static dash::lazy<std::map<symbol, function_table::ptr>> g_tables;
 
 void function_table::insert(const char *name, const generic_function::ptr &func) {
     if (!func) {
@@ -55,10 +55,10 @@ void inject_class_function(
 
     function_table::ptr table;
 
-    auto found = s_tables->find(cls_sym);
-    if (found == s_tables->end()) {
+    auto found = g_tables->find(cls_sym);
+    if (found == g_tables->end()) {
         table = function_table::create();
-        s_tables->insert({ cls_sym, table });
+        g_tables->insert({ cls_sym, table });
     } else {
         table = found->second;
     }
@@ -72,8 +72,8 @@ void erase_class_function(const char *cls_name, const char *fcn_name) {
         return;
     }
 
-    auto table = s_tables->find(cls_sym);
-    if (table == s_tables->end()) {
+    auto table = g_tables->find(cls_sym);
+    if (table == g_tables->end()) {
         return;
     }
 
@@ -83,7 +83,7 @@ void erase_class_function(const char *cls_name, const char *fcn_name) {
 void erase_class_functions(const char *cls_name) {
     symbol sym = symbol::find(cls_name);
     if (sym) {
-        s_tables->erase(sym);
+        g_tables->erase(sym);
     }
 }
 
@@ -102,8 +102,8 @@ generic_function::ptr injectable::find_injected_function(const char *name) {
     //NOTE: it is also necessary to consider the class symbol.
     symbol cls_sym = _injected_sym ? _injected_sym : class_symbol();
 
-    auto pair = s_tables->find(cls_sym);
-    if (pair != s_tables->end()) {
+    auto pair = g_tables->find(cls_sym);
+    if (pair != g_tables->end()) {
         return pair->second->find(name);
     }
 

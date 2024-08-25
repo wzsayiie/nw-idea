@@ -4,7 +4,7 @@
 
 namespace reflect {
 
-static dash::lazy<std::set<std::string>> s_strings;
+static dash::lazy<std::set<std::string>> g_strings;
 
 symbol symbol::make(const char *str) {
     return str;
@@ -12,8 +12,8 @@ symbol symbol::make(const char *str) {
 
 symbol symbol::find(const char *str) {
     if (str && *str) {
-        auto it = s_strings->find(str);
-        if (it != s_strings->end()) {
+        auto it = g_strings->find(str);
+        if (it != g_strings->end()) {
             return it->c_str();
         }
     }
@@ -26,7 +26,7 @@ symbol::symbol() {
 
 symbol::symbol(const char *str) {
     if (str && *str) {
-        auto pair = s_strings->insert(str);
+        auto pair = g_strings->insert(str);
         _str = pair.first->c_str();
     } else {
         _str = nullptr;

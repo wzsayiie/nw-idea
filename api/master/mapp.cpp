@@ -4,16 +4,16 @@
 #include "lreg.h"
 #include "rdefine.h"
 
-static dash::lazy<std::map<char, std::vector<reflect::function<void ()>::ptr>>> sListeners;
+static dash::lazy<std::map<char, std::vector<reflect::function<void ()>::ptr>>> gListeners;
 
 static void Add(char event, const reflect::function<void ()>::ptr &listener) {
     if (listener) {
-        (*sListeners)[event].push_back(listener);
+        (*gListeners)[event].push_back(listener);
     }
 }
 
 static void Call(char event) {
-    for (auto it : (*sListeners)[event]) {
+    for (auto it : (*gListeners)[event]) {
         it->call();
     }
 }

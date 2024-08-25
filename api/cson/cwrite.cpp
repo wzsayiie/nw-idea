@@ -3,34 +3,34 @@
 
 namespace cson {
 
-static dash::lazy<std::string> _context;
+static dash::lazy<std::string> g_context;
 
-static bool _pretty = false;
-static int  _indent = 0;
+static bool g_pretty = false;
+static int  g_indent = 0;
 
-void prepare_write_context(bool pretty) {
-    _context->clear();
+void prepare_writeg_context(bool pretty) {
+    g_context->clear();
 
-    _pretty = pretty;
-    _indent = 0;
+    g_pretty = pretty;
+    g_indent = 0;
 }
 
-void push_indent() { _indent += 1; }
-void pop_indent () { _indent -= 1; }
+void push_indent() { g_indent += 1; }
+void pop_indent () { g_indent -= 1; }
 
-void write_indent() { if (_pretty) { _context->append(_indent * 4, ' '); } }
-void write_space () { if (_pretty) { _context->append(" ")             ; } }
-void write_line  () { if (_pretty) { _context->append("\n")            ; } }
+void write_indent() { if (g_pretty) { g_context->append(g_indent * 4, ' '); } }
+void write_space () { if (g_pretty) { g_context->append(" ")              ; } }
+void write_line  () { if (g_pretty) { g_context->append("\n")             ; } }
 
 void write_token(const char *value) {
-    _context->append(value);
+    g_context->append(value);
 }
 
 void write_key(const double &value) {
     //if a number is used as the key of an object, to be expressed as a string type.
-    _context->append("\"");
+    g_context->append("\"");
     write_value(value);
-    _context->append("\"");
+    g_context->append("\"");
 }
 
 void write_key(const std::string &value) {
@@ -38,7 +38,7 @@ void write_key(const std::string &value) {
 }
 
 void write_value(const bool &value) {
-    _context->append(value ? "true" : "false");
+    g_context->append(value ? "true" : "false");
 }
 
 void write_value(const double &value) {
@@ -54,33 +54,33 @@ void write_value(const double &value) {
         end -= 1;
     }
 
-    _context->append(ptr, end);
+    g_context->append(ptr, end);
 }
 
 void write_value(const std::string &value) {
-    _context->append("\"");
+    g_context->append("\"");
 
     for (char ch : value) {
         switch (ch) {
-            case '\"': _context->append("\\\""); break;
-            case '\\': _context->append("\\\\"); break;
-            case '/' : _context->append("\\/" ); break;
-            case '\b': _context->append("\\b" ); break;
-            case '\f': _context->append("\\f" ); break;
-            case '\n': _context->append("\\n" ); break;
-            case '\r': _context->append("\\r" ); break;
-            case '\t': _context->append("\\t" ); break;
+            case '\"': g_context->append("\\\""); break;
+            case '\\': g_context->append("\\\\"); break;
+            case '/' : g_context->append("\\/" ); break;
+            case '\b': g_context->append("\\b" ); break;
+            case '\f': g_context->append("\\f" ); break;
+            case '\n': g_context->append("\\n" ); break;
+            case '\r': g_context->append("\\r" ); break;
+            case '\t': g_context->append("\\t" ); break;
 
-            default  : _context->push_back(ch);
+            default  : g_context->push_back(ch);
         }
     }
 
-    _context->append("\"");
+    g_context->append("\"");
 }
 
 std::string last_write_string() {
     std::string ret;
-    ret.swap(*_context);
+    ret.swap(*g_context);
     return ret;
 }
 

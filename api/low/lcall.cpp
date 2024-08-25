@@ -10,7 +10,7 @@ struct lambda {
     int param;
 };
 
-static dash::lazy<std::map<std::string, lambda>> _lambdas;
+static dash::lazy<std::map<std::string, lambda>> g_lambdas;
 
 void set(const char *name, void (*proc)(int), int param) {
     if (!name || !proc) {
@@ -21,7 +21,7 @@ void set(const char *name, void (*proc)(int), int param) {
         .proc  = proc,
         .param = param,
     };
-    _lambdas->insert({ name, lmd });
+    g_lambdas->insert({ name, lmd });
 }
 
 void call(const char *name) {
@@ -29,8 +29,8 @@ void call(const char *name) {
         return;
     }
 
-    auto it = _lambdas->find(name);
-    if (it == _lambdas->end()) {
+    auto it = g_lambdas->find(name);
+    if (it == g_lambdas->end()) {
         return;
     }
 

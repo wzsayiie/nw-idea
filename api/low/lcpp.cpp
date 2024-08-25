@@ -5,18 +5,18 @@
 
 namespace low {
 
-static dash::lazy<std::map<int, void (*)()>> _procs;
+static dash::lazy<std::map<int, void (*)()>> g_procs;
 
 static void generic_proc(int id) {
-    auto it = _procs->find(id);
-    if (it != _procs->end()) {
+    auto it = g_procs->find(id);
+    if (it != g_procs->end()) {
         it->second();
     }
 }
 
 setter::setter(const char *name, void (*proc)()) {
-    auto id = (int)_procs->size();
-    _procs->insert({ id, proc });
+    auto id = (int)g_procs->size();
+    g_procs->insert({ id, proc });
     set(name, generic_proc, id);
 }
 

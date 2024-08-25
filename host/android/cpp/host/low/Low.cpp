@@ -77,24 +77,24 @@ Java_host_low_Low_getNativeBytes(JNIEnv *env, jclass cls, jint index) {
     return array;
 }
 
-static JNIEnv   *s_jniEnv    = nullptr;
-static jclass    s_javaClass = nullptr;
-static jmethodID s_callback  = nullptr;
+static JNIEnv   *g_jniEnv    = nullptr;
+static jclass    g_javaClass = nullptr;
+static jmethodID g_callback  = nullptr;
 
 static void InitCallback(JNIEnv *env, jclass cls) {
-    s_jniEnv    = env;
-    s_javaClass = (jclass)env->NewGlobalRef(cls);
-    s_callback  = env->GetStaticMethodID(s_javaClass, "onCall", "(I)V");
+    g_jniEnv    = env;
+    g_javaClass = (jclass)env->NewGlobalRef(cls);
+    g_callback  = env->GetStaticMethodID(g_javaClass, "onCall", "(I)V");
 
     jclass    methodCls     = env->FindClass("java/lang/reflect/Method");
     jmethodID setAccessible = env->GetMethodID(methodCls, "setAccessible", "(Z)V");
-    jobject   methodObj     = env->ToReflectedMethod(s_javaClass, s_callback, JNI_FALSE);
+    jobject   methodObj     = env->ToReflectedMethod(g_javaClass, g_callback, JNI_FALSE);
 
     env->CallVoidMethod(methodObj, setAccessible, JNI_TRUE);
 }
 
 static void onCall(int id) {
-    s_jniEnv->CallStaticVoidMethod(s_javaClass, s_callback, id);
+    g_jniEnv->CallStaticVoidMethod(g_javaClass, g_callback, id);
 }
 
 extern "C" JNIEXPORT void JNICALL
