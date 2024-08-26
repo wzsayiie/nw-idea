@@ -9,6 +9,7 @@ void _UWindowPopUnregistered(); //() -> int
 void _UWindowTitle        (); //() -> string
 void _UWindowIdentifier   (); //() -> string
 void _UWindowWantShow     (); //() -> bool
+
 void _UWindowNotifyCreate (); //() -> void
 void _UWindowNotifyShow   (); //() -> void
 void _UWindowNotifyHide   (); //() -> void
@@ -112,9 +113,6 @@ public:
 
     void _notifyKey(UKey key, UModifiers modifiers);
 
-    void _notifyFieldFocus(bool focus);
-    void _notifyFieldText (const std::string &text);
-
     void _notifyResize(float w, float h);
     void _notifyGLDraw();
     void _notifyDraw  ();
@@ -134,7 +132,7 @@ private:
     float mCursorX      = 0;
     float mCursorY      = 0;
 
-    float       mFieldVisible = false;
+    bool        mFieldVisible = false;
     bool        mFieldFocus   = false;
     float       mFieldX       = 0;
     float       mFieldY       = 0;

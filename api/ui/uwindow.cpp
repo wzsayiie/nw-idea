@@ -34,7 +34,7 @@ static void UWindowRegister(const UWindow::ptr &window) {
 
 define_low_function(_UWindowPopUnregistered)
 void _UWindowPopUnregistered() {
-    if (gUnregisteredWindows->size() == 0) {
+    if (gUnregisteredWindows->empty()) {
         low::ir = 0;
         return;
     }
@@ -671,14 +671,6 @@ void UWindow::_notifyCursorEnd(float x, float y) {
 void UWindow::_notifyKey(UKey key, UModifiers modifiers) {
     char ch = UKeyGetChar(key, modifiers);
     onKey(key, modifiers, ch);
-}
-
-void UWindow::_notifyFieldFocus(bool focus) {
-    setFieldFocus(focus);
-}
-
-void UWindow::_notifyFieldText(const std::string &text) {
-    setFieldText(text);
 }
 
 void UWindow::_notifyResize(float w, float h) {
