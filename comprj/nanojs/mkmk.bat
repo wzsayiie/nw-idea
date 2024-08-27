@@ -9,7 +9,8 @@ set defm=/Dcustom_main=nanojs_main
 set srcd=               ^
     ../../vm/nanojs     ^
     ../../api/dash      ^
-    ../../vm/nanojslib
+    ../../vm/nanojslib  ^
+    ../../host/unix
 
 call ..\..\mkwrapper.bat
 

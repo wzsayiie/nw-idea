@@ -1,5 +1,4 @@
 #include "NANOJSLIB.h"
 
-int nanojslib_main() {
-    return 0;
+void nanojslib_main() {
 }

@@ -10,7 +10,8 @@ set srcd=               ^
     ../../api/ui        ^
     ../../api/dash      ^
     ../../api/low       ^
-    ../../api/reflect
+    ../../api/reflect   ^
+    ../../host/unix
 
 call ..\..\mkwrapper.bat
 

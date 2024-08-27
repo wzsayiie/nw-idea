@@ -1,5 +1,4 @@
 #include "CSON.h"
 
-int cson_main() {
-    return 0;
+void cson_main() {
 }

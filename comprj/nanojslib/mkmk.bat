@@ -8,7 +8,8 @@ set defm=/Dcustom_main=nanojslib_main
 
 set srcd=               ^
     ../../vm/nanojslib  ^
-    ../../api/dash
+    ../../api/dash      ^
+    ../../host/unix
 
 call ..\..\mkwrapper.bat
 

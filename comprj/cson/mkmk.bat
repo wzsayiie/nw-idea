@@ -8,7 +8,8 @@ set defm=/Dcustom_main=cson_main
 
 set srcd=           ^
     ../../api/cson  ^
-    ../../api/dash
+    ../../api/dash  ^
+    ../../host/unix
 
 call ..\..\mkwrapper.bat
 

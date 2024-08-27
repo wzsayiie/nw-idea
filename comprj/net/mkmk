@@ -9,6 +9,7 @@ export srcd="           \
     ../../api/dash      \
     ../../api/low       \
     ../../api/reflect   \
+    ../../host/unix     \
 "
 
 sh ../../mkwrapper

@@ -1,5 +1,4 @@
 #include "SYSTEM.h"
 
-int system_main() {
-    return 0;
+void SMain() {
 }

@@ -1,5 +1,4 @@
 #include "NANOJS.h"
 
-int nanojs_main() {
-    return 0;
+void nanojs_main() {
 }

@@ -8,7 +8,8 @@ set defm=/Dcustom_main=reflect_main
 
 set srcd=               ^
     ../../api/reflect   ^
-    ../../api/dash
+    ../../api/dash      ^
+    ../../host/unix
 
 call ..\..\mkwrapper.bat
 

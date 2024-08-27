@@ -8,6 +8,7 @@ export srcd="           \
     ../../vm/nanojs     \
     ../../api/dash      \
     ../../vm/nanojslib  \
+    ../../host/unix     \
 "
 
 sh ../../mkwrapper

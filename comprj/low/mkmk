@@ -7,6 +7,7 @@ export defm=-Dcustom_main=low_main
 export srcd="       \
     ../../api/low   \
     ../../api/dash  \
+    ../../host/unix \
 "
 
 sh ../../mkwrapper
