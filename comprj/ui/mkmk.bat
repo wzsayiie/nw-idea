@@ -4,7 +4,7 @@ setlocal
 
 cd /d %~dp0
 
-set defm=/Dui_main=main
+set defm=/Dcustom_main=UMain
 
 set srcd=               ^
     ../../api/ui        ^

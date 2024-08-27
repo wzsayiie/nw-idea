@@ -4,7 +4,7 @@ setlocal
 
 cd /d %~dp0
 
-set defm=/Ddash_main=main
+set defm=/Dcustom_main=dash_main
 set srcd=../../api/dash
 
 call ..\..\mkwrapper.bat

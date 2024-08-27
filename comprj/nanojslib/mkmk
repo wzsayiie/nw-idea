@@ -2,7 +2,7 @@
 
 cd `dirname $0`
 
-export defm=-Dnanojslib_main=main
+export defm=-Dcustom_main=nanojslib_main
 
 export srcd="           \
     ../../vm/nanojslib  \

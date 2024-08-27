@@ -4,7 +4,7 @@ setlocal
 
 cd /d %~dp0
 
-set defm=/Dmaster_main=main
+set defm=/Dcustom_main=MMain
 
 set srcd=               ^
     ../../api/master    ^

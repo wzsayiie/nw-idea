@@ -2,7 +2,7 @@
 
 cd `dirname $0`
 
-export defm=-Dcson_main=main
+export defm=-Dcustom_main=cson_main
 
 export srcd="       \
     ../../api/cson  \

@@ -2,7 +2,7 @@
 
 cd `dirname $0`
 
-export defm=-Ddash_main=main
+export defm=-Dcustom_main=dash_main
 export srcd=../../api/dash
 
 sh ../../mkwrapper

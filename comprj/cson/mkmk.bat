@@ -4,7 +4,7 @@ setlocal
 
 cd /d %~dp0
 
-set defm=/Dcson_main=main
+set defm=/Dcustom_main=cson_main
 
 set srcd=           ^
     ../../api/cson  ^

@@ -2,7 +2,7 @@
 
 cd `dirname $0`
 
-export defm=-Dmaster_main=main
+export defm=-Dcustom_main=MMain
 
 export srcd="           \
     ../../api/master    \

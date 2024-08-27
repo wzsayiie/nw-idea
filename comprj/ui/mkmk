@@ -2,7 +2,7 @@
 
 cd `dirname $0`
 
-export defm=-Dui_main=main
+export defm=-Dcustom_main=UMain
 
 export srcd="           \
     ../../api/ui        \

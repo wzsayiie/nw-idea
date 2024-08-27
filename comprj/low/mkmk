@@ -2,7 +2,7 @@
 
 cd `dirname $0`
 
-export defm=-Dlow_main=main
+export defm=-Dcustom_main=low_main
 
 export srcd="       \
     ../../api/low   \

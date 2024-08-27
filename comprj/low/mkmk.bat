@@ -4,7 +4,7 @@ setlocal
 
 cd /d %~dp0
 
-set defm=/Dlow_main=main
+set defm=/Dcustom_main=low_main
 
 set srcd=           ^
     ../../api/low   ^

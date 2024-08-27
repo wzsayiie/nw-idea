@@ -2,7 +2,7 @@
 
 cd `dirname $0`
 
-export defm=-Dreflect_main=main
+export defm=-Dcustom_main=reflect_main
 
 export srcd="           \
     ../../api/reflect   \

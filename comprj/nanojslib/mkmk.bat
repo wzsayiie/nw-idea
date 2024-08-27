@@ -4,7 +4,7 @@ setlocal
 
 cd /d %~dp0
 
-set defm=/Dnanojslib_main=main
+set defm=/Dcustom_main=nanojslib_main
 
 set srcd=               ^
     ../../vm/nanojslib  ^
