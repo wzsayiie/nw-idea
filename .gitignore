@@ -11,4 +11,8 @@ intprj/android/app/build/
 intprj/android/gradle/wrapper/gradle-wrapper.jar
 intprj/android/local.properties
 
+intprj/unix/makefile
+intprj/unix/obj/
+intprj/unix/out.exe
+
 mkgen.exe

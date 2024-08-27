@@ -1,9 +1,10 @@
 #include <cstdlib>
 #include "denviron.h"
 #include "lcall.h"
+#include "lreg.h"
 
 #if D_OS_WINDOWS
-    #include <synchapi.h>
+    #include <Windows.h>
 #else
     #include <unistd.h>
 #endif
@@ -16,13 +17,17 @@ void sleep_sec(double sec) {
     #endif
 }
 
+#ifdef custom_main
+    void custom_main();
+#endif
+
 void on_exit();
 
 int main() {
     //line mode.
     #ifdef custom_main
         custom_main();
-        return;
+        return 0;
     #endif
 
     //loop mode.
@@ -37,6 +42,8 @@ int main() {
         low::call("_MAppUpdate");
         sleep_sec(sec);
     }
+
+    return 0;
 }
 
 void on_exit() {
