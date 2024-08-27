@@ -1,0 +1,14 @@
+#!/bin/zsh
+
+cd `dirname $0`
+
+export defm=-Dcustom_main=NMain
+
+export srcd="           \
+    ../../api/net       \
+    ../../api/dash      \
+    ../../api/low       \
+    ../../api/reflect   \
+"
+
+sh ../../mkwrapper
