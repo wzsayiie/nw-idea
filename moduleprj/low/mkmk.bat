@@ -7,8 +7,8 @@ cd /d %~dp0
 set defm=/Dcustom_main=low_main
 
 set srcd=           ^
-    ../../api/low   ^
-    ../../api/dash
+    ../../capi/low  ^
+    ../../capi/dash
 
 call ..\..\mkwrapper.bat
 

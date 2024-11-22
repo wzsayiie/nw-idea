@@ -5,8 +5,8 @@ cd `dirname $0`
 export defm=-Dcustom_main=cson_main
 
 export srcd="       \
-    ../../api/cson  \
-    ../../api/dash  \
+    ../../capi/cson \
+    ../../capi/dash \
     ../../host/unix \
 "
 

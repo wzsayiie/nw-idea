@@ -7,8 +7,8 @@ cd /d %~dp0
 set defm=/Dcustom_main=nanolib_main
 
 set srcd=               ^
-    ../../vm/nanolib    ^
-    ../../api/dash      ^
+    ../../cvm/nanolib   ^
+    ../../capi/dash     ^
     ../../host/unix
 
 call ..\..\mkwrapper.bat

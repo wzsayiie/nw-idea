@@ -5,9 +5,9 @@ cd `dirname $0`
 export defm=-Dcustom_main=nanojs_main
 
 export srcd="           \
-    ../../vm/nanojs     \
-    ../../api/dash      \
-    ../../vm/nanolib    \
+    ../../cvm/nanojs    \
+    ../../cvm/nanolib   \
+    ../../capi/dash     \
     ../../host/unix     \
 "
 

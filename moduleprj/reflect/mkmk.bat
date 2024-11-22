@@ -7,8 +7,8 @@ cd /d %~dp0
 set defm=/Dcustom_main=reflect_main
 
 set srcd=               ^
-    ../../api/reflect   ^
-    ../../api/dash      ^
+    ../../capi/reflect  ^
+    ../../capi/dash     ^
     ../../host/unix
 
 call ..\..\mkwrapper.bat

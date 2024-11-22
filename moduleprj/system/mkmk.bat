@@ -7,10 +7,10 @@ cd /d %~dp0
 set defm=/Dcustom_main=SMain
 
 set srcd=               ^
-    ../../api/system    ^
-    ../../api/dash      ^
-    ../../api/low       ^
-    ../../api/reflect   ^
+    ../../capi/system   ^
+    ../../capi/dash     ^
+    ../../capi/low      ^
+    ../../capi/reflect  ^
     ../../host/unix
 
 call ..\..\mkwrapper.bat

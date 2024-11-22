@@ -2,9 +2,9 @@ cmake_minimum_required(VERSION 3.22.1)
 
 project("main")
 
-list(APPEND src_dirs ../../../../api)
+list(APPEND src_dirs ../../../../capi)
+list(APPEND src_dirs ../../../../cvm)
 list(APPEND src_dirs ../../../../host/android/cpp)
-list(APPEND src_dirs ../../../../vm)
 
 list(APPEND ref_libs android)
 list(APPEND ref_libs log)

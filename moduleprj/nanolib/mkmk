@@ -5,8 +5,8 @@ cd `dirname $0`
 export defm=-Dcustom_main=nanolib_main
 
 export srcd="           \
-    ../../vm/nanolib    \
-    ../../api/dash      \
+    ../../cvm/nanolib   \
+    ../../capi/dash     \
     ../../host/unix     \
 "
 

@@ -8,16 +8,16 @@ set defm=
 
 set srcd=               ^
     ../../host/unix     ^
-    ../../api/cson      ^
-    ../../api/dash      ^
-    ../../api/low       ^
-    ../../api/master    ^
-    ../../api/net       ^
-    ../../api/reflect   ^
-    ../../api/system    ^
-    ../../api/ui        ^
-    ../../vm/nanojs     ^
-    ../../vm/nanolib
+    ../../capi/cson     ^
+    ../../capi/dash     ^
+    ../../capi/low      ^
+    ../../capi/master   ^
+    ../../capi/net      ^
+    ../../capi/reflect  ^
+    ../../capi/system   ^
+    ../../capi/ui       ^
+    ../../cvm/nanojs    ^
+    ../../cvm/nanolib
 
 call ..\..\mkwrapper.bat
 

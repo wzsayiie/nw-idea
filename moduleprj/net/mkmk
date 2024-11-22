@@ -5,10 +5,10 @@ cd `dirname $0`
 export defm=-Dcustom_main=NMain
 
 export srcd="           \
-    ../../api/net       \
-    ../../api/dash      \
-    ../../api/low       \
-    ../../api/reflect   \
+    ../../capi/net      \
+    ../../capi/dash     \
+    ../../capi/low      \
+    ../../capi/reflect  \
     ../../host/unix     \
 "
 
