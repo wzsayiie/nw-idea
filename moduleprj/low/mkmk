@@ -4,10 +4,10 @@ cd `dirname $0`
 
 export defm=-Dcustom_main=low_main
 
-export srcd="       \
-    ../../capi/low  \
-    ../../capi/dash \
-    ../../host/unix \
+export srcd="           \
+    ../../capi/low      \
+    ../../capi/dash     \
+    ../../host/console  \
 "
 
 sh ../../mkwrapper

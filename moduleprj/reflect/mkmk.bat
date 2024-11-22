@@ -9,7 +9,7 @@ set defm=/Dcustom_main=reflect_main
 set srcd=               ^
     ../../capi/reflect  ^
     ../../capi/dash     ^
-    ../../host/unix
+    ../../host/console
 
 call ..\..\mkwrapper.bat
 

@@ -5,7 +5,7 @@ cd `dirname $0`
 export defm=
 
 export srcd="           \
-    ../../host/unix     \
+    ../../host/console  \
     ../../capi/cson     \
     ../../capi/dash     \
     ../../capi/low      \

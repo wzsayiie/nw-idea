@@ -8,7 +8,7 @@ export srcd="           \
     ../../cvm/nanojs    \
     ../../cvm/nanolib   \
     ../../capi/dash     \
-    ../../host/unix     \
+    ../../host/console  \
 "
 
 sh ../../mkwrapper

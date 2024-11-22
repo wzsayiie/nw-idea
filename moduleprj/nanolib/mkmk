@@ -7,7 +7,7 @@ export defm=-Dcustom_main=nanolib_main
 export srcd="           \
     ../../cvm/nanolib   \
     ../../capi/dash     \
-    ../../host/unix     \
+    ../../host/console  \
 "
 
 sh ../../mkwrapper

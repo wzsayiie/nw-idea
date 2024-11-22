@@ -4,10 +4,10 @@ cd `dirname $0`
 
 export defm=-Dcustom_main=cson_main
 
-export srcd="       \
-    ../../capi/cson \
-    ../../capi/dash \
-    ../../host/unix \
+export srcd="           \
+    ../../capi/cson     \
+    ../../capi/dash     \
+    ../../host/console  \
 "
 
 sh ../../mkwrapper

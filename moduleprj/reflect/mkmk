@@ -7,7 +7,7 @@ export defm=-Dcustom_main=reflect_main
 export srcd="           \
     ../../capi/reflect  \
     ../../capi/dash     \
-    ../../host/unix     \
+    ../../host/console  \
 "
 
 sh ../../mkwrapper

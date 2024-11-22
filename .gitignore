@@ -11,8 +11,8 @@ monoprj/android/app/build/
 monoprj/android/gradle/wrapper/gradle-wrapper.jar
 monoprj/android/local.properties
 
-monoprj/unix/makefile
-monoprj/unix/obj/
-monoprj/unix/out.exe
+monoprj/console/makefile
+monoprj/console/obj/
+monoprj/console/out.exe
 
 mkgen.exe

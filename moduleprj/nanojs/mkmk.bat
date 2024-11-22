@@ -10,7 +10,7 @@ set srcd=               ^
     ../../cvm/nanojs    ^
     ../../cvm/nanolib   ^
     ../../capi/dash     ^
-    ../../host/unix
+    ../../host/console
 
 call ..\..\mkwrapper.bat
 

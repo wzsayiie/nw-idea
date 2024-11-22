@@ -11,7 +11,7 @@ set srcd=               ^
     ../../capi/dash     ^
     ../../capi/low      ^
     ../../capi/reflect  ^
-    ../../host/unix
+    ../../host/console
 
 call ..\..\mkwrapper.bat
 

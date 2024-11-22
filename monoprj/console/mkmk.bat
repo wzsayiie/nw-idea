@@ -7,7 +7,7 @@ cd /d %~dp0
 set defm=
 
 set srcd=               ^
-    ../../host/unix     ^
+    ../../host/console  ^
     ../../capi/cson     ^
     ../../capi/dash     ^
     ../../capi/low      ^
