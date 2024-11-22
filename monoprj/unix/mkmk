@@ -15,7 +15,7 @@ export srcd="           \
     ../../api/system    \
     ../../api/ui        \
     ../../vm/nanojs     \
-    ../../vm/nanojslib  \
+    ../../vm/nanolib    \
 "
 
 sh ../../mkwrapper

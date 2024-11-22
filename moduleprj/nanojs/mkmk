@@ -7,7 +7,7 @@ export defm=-Dcustom_main=nanojs_main
 export srcd="           \
     ../../vm/nanojs     \
     ../../api/dash      \
-    ../../vm/nanojslib  \
+    ../../vm/nanolib    \
     ../../host/unix     \
 "
 

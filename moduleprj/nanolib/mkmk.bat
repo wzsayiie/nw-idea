@@ -4,10 +4,10 @@ setlocal
 
 cd /d %~dp0
 
-set defm=/Dcustom_main=nanojslib_main
+set defm=/Dcustom_main=nanolib_main
 
 set srcd=               ^
-    ../../vm/nanojslib  ^
+    ../../vm/nanolib    ^
     ../../api/dash      ^
     ../../host/unix
 

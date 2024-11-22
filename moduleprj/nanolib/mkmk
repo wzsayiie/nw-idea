@@ -2,10 +2,10 @@
 
 cd `dirname $0`
 
-export defm=-Dcustom_main=nanojslib_main
+export defm=-Dcustom_main=nanolib_main
 
 export srcd="           \
-    ../../vm/nanojslib  \
+    ../../vm/nanolib    \
     ../../api/dash      \
     ../../host/unix     \
 "

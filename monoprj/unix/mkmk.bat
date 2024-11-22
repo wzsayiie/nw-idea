@@ -17,7 +17,7 @@ set srcd=               ^
     ../../api/system    ^
     ../../api/ui        ^
     ../../vm/nanojs     ^
-    ../../vm/nanojslib
+    ../../vm/nanolib
 
 call ..\..\mkwrapper.bat
 
