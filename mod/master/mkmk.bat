@@ -6,13 +6,13 @@ cd /d %~dp0
 
 set defm=/Dcustom_main=MMain
 
-set srcd=               ^
-    ../../capi/master   ^
-    ../../capi/dash     ^
-    ../../capi/low      ^
-    ../../capi/reflect  ^
+set srcd=                   ^
+    ../../cppapi/master     ^
+    ../../cppapi/dash       ^
+    ../../cppapi/low        ^
+    ../../cppapi/reflect    ^
     ../../host/console
 
-call ..\..\mkwrapper.bat
+call ..\..\mkgen.bat
 
 endlocal

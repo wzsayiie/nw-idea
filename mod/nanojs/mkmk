@@ -5,10 +5,10 @@ cd `dirname $0`
 export defm=-Dcustom_main=nanojs_main
 
 export srcd="           \
-    ../../cvm/nanojs    \
-    ../../cvm/nanolib   \
-    ../../capi/dash     \
+    ../../cppvm/nanojs  \
+    ../../cppvm/nanolib \
+    ../../cppapi/dash   \
     ../../host/console  \
 "
 
-sh ../../mkwrapper
+sh ../../mkgen

@@ -4,12 +4,12 @@ cd `dirname $0`
 
 export defm=-Dcustom_main=UMain
 
-export srcd="           \
-    ../../capi/ui       \
-    ../../capi/dash     \
-    ../../capi/low      \
-    ../../capi/reflect  \
-    ../../host/console  \
+export srcd="               \
+    ../../cppapi/ui         \
+    ../../cppapi/dash       \
+    ../../cppapi/low        \
+    ../../cppapi/reflect    \
+    ../../host/console      \
 "
 
-sh ../../mkwrapper
+sh ../../mkgen

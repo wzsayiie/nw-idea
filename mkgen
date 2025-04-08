@@ -4,10 +4,10 @@
 #   srcd: header and source directories;
 #   defm: defined macros.
 
-# build mkgen tool.
-mkgen=`dirname $0`/mkgen
-if [ ! -f $mkgen.exe ]; then
-    c++ --std=c++20 -O3 -o $mkgen.exe $mkgen.cpp
+# build mkout tool.
+mkout=`dirname $0`/mkout
+if [ ! -f $mkout.exe ]; then
+    c++ --std=c++20 -O3 -o $mkout.exe $mkout.cpp
 fi
 
 # generate makefile.
@@ -18,7 +18,7 @@ done
 
 mkdir -p obj
 
-$mkgen.exe                                              \
+$mkout.exe                                              \
     --compile-cmd "c++ $defm $incd --std=c++20 -c -o "  \
     --link-cmd    "c++ -o "                             \
     --header-dirs $srcd                                 \

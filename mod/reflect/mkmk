@@ -4,10 +4,10 @@ cd `dirname $0`
 
 export defm=-Dcustom_main=reflect_main
 
-export srcd="           \
-    ../../capi/reflect  \
-    ../../capi/dash     \
-    ../../host/console  \
+export srcd="               \
+    ../../cppapi/reflect    \
+    ../../cppapi/dash       \
+    ../../host/console      \
 "
 
-sh ../../mkwrapper
+sh ../../mkgen

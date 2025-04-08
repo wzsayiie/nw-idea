@@ -6,19 +6,19 @@ cd /d %~dp0
 
 set defm=
 
-set srcd=               ^
-    ../../host/console  ^
-    ../../capi/cson     ^
-    ../../capi/dash     ^
-    ../../capi/low      ^
-    ../../capi/master   ^
-    ../../capi/net      ^
-    ../../capi/reflect  ^
-    ../../capi/system   ^
-    ../../capi/ui       ^
-    ../../cvm/nanojs    ^
-    ../../cvm/nanolib
+set srcd=                   ^
+    ../../host/console      ^
+    ../../cppapi/cson       ^
+    ../../cppapi/dash       ^
+    ../../cppapi/low        ^
+    ../../cppapi/master     ^
+    ../../cppapi/net        ^
+    ../../cppapi/reflect    ^
+    ../../cppapi/system     ^
+    ../../cppapi/ui         ^
+    ../../cppvm/nanojs      ^
+    ../../cppvm/nanolib
 
-call ..\..\mkwrapper.bat
+call ..\..\mkgen.bat
 
 endlocal

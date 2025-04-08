@@ -5,9 +5,9 @@ cd `dirname $0`
 export defm=-Dcustom_main=nanolib_main
 
 export srcd="           \
-    ../../cvm/nanolib   \
-    ../../capi/dash     \
+    ../../cppvm/nanolib \
+    ../../cppapi/dash   \
     ../../host/console  \
 "
 
-sh ../../mkwrapper
+sh ../../mkgen

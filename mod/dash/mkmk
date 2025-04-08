@@ -3,6 +3,6 @@
 cd `dirname $0`
 
 export defm=-Dcustom_main=dash_main
-export srcd=../../capi/dash
+export srcd=../../cppapi/dash
 
-sh ../../mkwrapper
+sh ../../mkgen

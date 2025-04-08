@@ -6,16 +6,16 @@
 
 setlocal EnableDelayedExpansion
 
-::build mkgen tool.
-set mkgen=%~dp0\mkgen
-if not exist %mkgen%.exe (
+::build mkout tool.
+set mkout=%~dp0\mkout
+if not exist %mkout%.exe (
     call cl                             ^
         /nologo /Ox /EHsc /std:c++20    ^
-        /Fo%mkgen%.obj                  ^
-        /Fe%mkgen%.exe                  ^
-        %mkgen%.cpp
+        /Fo%mkout%.obj                  ^
+        /Fe%mkout%.exe                  ^
+        %mkout%.cpp
 
-    del %mkgen%.obj
+    del %mkout%.obj
 )
 
 ::generate makefile.
@@ -28,7 +28,7 @@ if not exist obj (
     mkdir obj
 )
 
-call %mkgen%.exe                                                        ^
+call %mkout%.exe                                                        ^
     --compile-cmd "cl %defm% %incd% /nologo /EHsc /std:c++20 /c /Fo"    ^
     --link-cmd    "link /nologo /noimplib /noexp /out:"                 ^
     --header-dirs %srcd%                                                ^

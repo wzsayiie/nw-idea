@@ -6,10 +6,10 @@ cd /d %~dp0
 
 set defm=/Dcustom_main=low_main
 
-set srcd=           ^
-    ../../capi/low  ^
-    ../../capi/dash
+set srcd=               ^
+    ../../cppapi/low    ^
+    ../../cppapi/dash
 
-call ..\..\mkwrapper.bat
+call ..\..\mkgen.bat
 
 endlocal
