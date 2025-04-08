@@ -1,18 +1,18 @@
 .DS_Store
 
-moduleprj/*/makefile
-moduleprj/*/obj/
-moduleprj/*/out.exe
+mod/*/makefile
+mod/*/obj/
+mod/*/out.exe
 
-monoprj/android/.gradle/
-monoprj/android/.idea/
-monoprj/android/app/.cxx/
-monoprj/android/app/build/
-monoprj/android/gradle/wrapper/gradle-wrapper.jar
-monoprj/android/local.properties
+mono/android/.gradle/
+mono/android/.idea/
+mono/android/app/.cxx/
+mono/android/app/build/
+mono/android/gradle/wrapper/gradle-wrapper.jar
+mono/android/local.properties
 
-monoprj/console/makefile
-monoprj/console/obj/
-monoprj/console/out.exe
+mono/console/makefile
+mono/console/obj/
+mono/console/out.exe
 
-mkgen.exe
+mkout.exe
