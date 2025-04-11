@@ -4,75 +4,84 @@
 #include "rinjectable.h"
 #include "ukey.h"
 
-void _UWindowPopUnregistered(); //() -> int
+// host api.
+//
 
-void _UWindowTitle        (); //() -> string
-void _UWindowIdentifier   (); //() -> string
-void _UWindowWantShow     (); //() -> bool
+void _UWindowCreate (int id, const std::string &session);
+void _UWindowShow   (int id);
+void _UWindowHide   (int id);
+void _UWindowDestroy(int id);
 
-void _UWindowNotifyCreate (); //() -> void
-void _UWindowNotifyShow   (); //() -> void
-void _UWindowNotifyHide   (); //() -> void
-void _UWindowNotifyDestroy(); //() -> void
+void _UWindowSetTitle(int id, const std::string &title);
 
-void _UWindowNotifyCursorBegin(); //(float x, float y) -> void
-void _UWindowNotifyCursorWheel(); //(float x, float y, float delta) -> void
-void _UWindowNotifyCursorRight(); //(float x, float y) -> void
-void _UWindowNotifyCursorMove (); //(float x, float y) -> void
-void _UWindowNotifyCursorDown (); //(float x, float y) -> void
-void _UWindowNotifyCursorUp   (); //(float x, float y) -> void
-void _UWindowNotifyCursorEnd  (); //(float x, float y) -> void
+void _UWindowSetFieldVisible(int id, bool visible);
+void _UWindowSetFieldFocus  (int id, bool focus);
+void _UWindowSetFieldRect   (int id, float x, float y, float w, float h);
+void _UWindowSetFieldText   (int id, const std::string &text);
 
-void _UWindowNotifyKey(); //(int key, int modifiers) -> void
+// window callback.
+//
 
-void _UWindowFieldVisible (); //() -> bool
-void _UWindowFieldSetFocus(); //(bool focus) -> void
-void _UWindowFieldFocus   (); //() -> bool
-void _UWindowFieldX       (); //() -> float
-void _UWindowFieldY       (); //() -> float
-void _UWindowFieldWidth   (); //() -> float
-void _UWindowFieldHeight  (); //() -> float
-void _UWindowFieldSetText (); //(string text) -> void
-void _UWindowFieldText    (); //() -> string
+void _UWindowNotifyShow   (int id);
+void _UWindowNotifyHide   (int id);
+void _UWindowNotifyDestroy(int id);
 
-void _UWindowNotifyResize(); //(float w, float h) -> void
-void _UWindowNotifyGLDraw(); //() -> void
-void _UWindowNotifyDraw  (); //() -> void
+void _UWindowNotifyCursorWheel(int id, float x, float y, float delta);
+void _UWindowNotifyCursorRight(int id, float x, float y);
+void _UWindowNotifyCursorMove (int id, float x, float y);
+void _UWindowNotifyCursorDown (int id, float x, float y);
+void _UWindowNotifyCursorUp   (int id, float x, float y);
+
+void _UWindowNotifyKey(int id, int key, int modifiers);
+
+void _UWindowNotifyFieldFocus(int id, bool focus);
+void _UWindowNotifyFieldText (int id, const std::string &text);
+
+void _UWindowNotifyResize(int id, float w, float h);
+void _UWindowNotifyGLDraw(int id);
+void _UWindowNotifyDraw  (int id);
+
+// window class.
+//
 
 declare_reflectable_class(UWindow)
 class UWindow : public dash::extends<UWindow, reflect::injectable> {
 public:
+    void setSession(const std::string &session);
+    std::string session();
+
     void setTitle(const std::string &title);
     std::string title();
 
-    void setIdentifier(const std::string &identifier);
-    std::string identifier();
+    void createWindow ();
+    void showWindow   ();
+    void hideWindow   ();
+    void destroyWindow();
 
-    void showWindow();
-    bool wantShow();
+    bool created  ();
+    bool shown    ();
+    bool destroyed();
 
-    bool  created();
-    bool  shown  ();
-    float width  ();
-    float height ();
+    float width ();
+    float height();
 
-    bool  cursorBegan ();
+    bool  cursorActive();
     bool  cursorDowned();
     float cursorX     ();
     float cursorY     ();
 
-    void setFieldVisible(bool visible);
-    void setFieldFocus  (bool focus);
-    void setFieldRect   (float x, float y, float w, float h);
-    void setFieldText   (const std::string &text);
+    void  setFieldVisible(bool visible);
+    void  setFieldFocus  (bool focus);
+    void  setFieldRect   (float x, float y, float w, float h);
+    void  setFieldText   (const std::string &text);
+    bool  fieldVisible   ();
+    bool  fieldFocus     ();
+    float fieldX         ();
+    float fieldY         ();
+    float fieldWidth     ();
+    float fieldHeight    ();
 
-    bool        fieldVisible();
-    bool        fieldFocus  ();
-    float       fieldX      ();
-    float       fieldY      ();
-    float       fieldWidth  ();
-    float       fieldHeight ();
-    std::string fieldText   ();
+    std::string fieldText();
 
 public:
     virtual void onCreate ();
@@ -80,13 +89,11 @@ public:
     virtual void onHide   ();
     virtual void onDestroy();
 
-    virtual void onCursorBegin(float x, float y);
     virtual void onCursorWheel(float x, float y, float delta);
     virtual void onCursorRight(float x, float y);
     virtual void onCursorMove (float x, float y, bool downed);
     virtual void onCursorDown (float x, float y);
     virtual void onCursorUp   (float x, float y);
-    virtual void onCursorEnd  (float x, float y);
 
     virtual void onKey(UKey key, UModifiers modifiers, char ch);
 
@@ -98,45 +105,47 @@ public:
     virtual void onDraw  ();
 
 public:
-    void _notifyCreate ();
     void _notifyShow   ();
     void _notifyHide   ();
     void _notifyDestroy();
 
-    void _notifyCursorBegin(float x, float y);
     void _notifyCursorWheel(float x, float y, float delta);
     void _notifyCursorRight(float x, float y);
     void _notifyCursorMove (float x, float y);
     void _notifyCursorDown (float x, float y);
     void _notifyCursorUp   (float x, float y);
-    void _notifyCursorEnd  (float x, float y);
 
     void _notifyKey(UKey key, UModifiers modifiers);
+
+    void _notifyFieldFocus(bool focus);
+    void _notifyFieldText (const std::string &text);
 
     void _notifyResize(float w, float h);
     void _notifyGLDraw();
     void _notifyDraw  ();
 
 private:
-    std::string mTitle      = "";
-    std::string mIdentifier = "";
+    std::string mSession;
+    std::string mTitle;
 
-    bool  mWantShow = false;
-    bool  mCreated  = false;
-    bool  mShown    = false;
-    float mWidth    = 0;
-    float mHeight   = 0;
+    bool  mCreated   = false;
+    bool  mShown     = false;
+    bool  mDestroyed = false;
 
-    bool  mCursorBegan  = false;
+    float mWidth  = 0;
+    float mHeight = 0;
+
+    bool  mCursorActive = false;
     bool  mCursorDowned = false;
     float mCursorX      = 0;
     float mCursorY      = 0;
 
-    bool        mFieldVisible = false;
-    bool        mFieldFocus   = false;
-    float       mFieldX       = 0;
-    float       mFieldY       = 0;
-    float       mFieldWidth   = 0;
-    float       mFieldHeight  = 0;
-    std::string mFieldText    = "";
+    bool  mFieldVisible = false;
+    bool  mFieldFocus   = false;
+    float mFieldX       = 0;
+    float mFieldY       = 0;
+    float mFieldWidth   = 0;
+    float mFieldHeight  = 0;
+
+    std::string mFieldText;
 };

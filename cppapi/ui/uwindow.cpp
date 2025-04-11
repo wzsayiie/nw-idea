@@ -2,50 +2,19 @@
 #include <map>
 #include <vector>
 #include "dlazy.h"
+#include "lcall.h"
 #include "lcpp.h"
 #include "lreg.h"
 #include "rdefine.h"
 
-static dash::lazy<std::vector<UWindow::ptr>>   gUnregisteredWindows;
 static dash::lazy<std::map<int, UWindow::ptr>> gWindows;
 
-static int UWindowGetID(const UWindow::ptr &window) {
-    return (int)(intptr_t)window.get();
+static void UWindowRegister(int id, const UWindow::ptr &window) {
+    gWindows->insert({ id, window });
 }
 
-static void UWindowRegister(const UWindow::ptr &window) {
-    int id = UWindowGetID(window);
-
-    //already registered.
-    auto target = gWindows->find(id);
-    if (target != gWindows->end()) {
-        return;
-    }
-
-    //already added.
-    for (auto &it : *gUnregisteredWindows) {
-        if (it == window) {
-            return;
-        }
-    }
-
-    gUnregisteredWindows->push_back(window);
-}
-
-define_low_function(_UWindowPopUnregistered)
-void _UWindowPopUnregistered() {
-    if (gUnregisteredWindows->empty()) {
-        low::ir = 0;
-        return;
-    }
-    
-    auto it = gUnregisteredWindows->begin();
-    int  id = UWindowGetID(*it);
-
-    gWindows->insert({ id, *it });
-    gUnregisteredWindows->erase(it);
-
-    low::ir = id;
+static int UWindowID(const UWindow *window) {
+    return (int)(intptr_t)window;
 }
 
 static UWindow::ptr UWindowGet(int id) {
@@ -56,43 +25,67 @@ static UWindow::ptr UWindowGet(int id) {
     return nullptr;
 }
 
-define_low_function(_UWindowTitle)
-void _UWindowTitle() {
-    int id = low::i[0];
+void _UWindowCreate(int id, const std::string &session) {
+    low::i[0] = id;
+    low::s[1] = session;
 
-    if (UWindow::ptr window = UWindowGet(id)) {
-        low::sr = window->title();
-    }
-    low::sr = "";
+    low::call("_UWindowCreate");
 }
 
-define_low_function(_UWindowIdentifier)
-void _UWindowIdentifier() {
-    int id = low::i[0];
+void _UWindowShow(int id) {
+    low::i[0] = id;
 
-    if (UWindow::ptr window = UWindowGet(id)) {
-        low::sr = window->identifier();
-    }
-    low::sr = "";
+    low::call("_UWindowShow");
 }
 
-define_low_function(_UWindowWantShow)
-void _UWindowWantShow() {
-    int id = low::i[0];
+void _UWindowHide(int id) {
+    low::i[0] = id;
 
-    if (UWindow::ptr window = UWindowGet(id)) {
-        low::br = window->wantShow();
-    }
-    low::br = false;
+    low::call("_UWindowHide");
 }
 
-define_low_function(_UWindowNotifyCreate)
-void _UWindowNotifyCreate() {
-    int id = low::i[0];
+void _UWindowDestroy(int id) {
+    low::i[0] = id;
 
-    if (UWindow::ptr window = UWindowGet(id)) {
-        window->_notifyCreate();
-    }
+    low::call("_UWindowDestroy");
+}
+
+void _UWindowSetTitle(int id, const std::string &title) {
+    low::i[0] = id;
+    low::s[1] = title;
+
+    low::call("_UWindowSetTitle");
+}
+
+void _UWindowSetFieldVisible(int id, bool visible) {
+    low::i[0] = id;
+    low::b[1] = visible;
+
+    low::call("_UWindowSetFieldVisible");
+}
+
+void _UWindowSetFieldFocus(int id, bool focus) {
+    low::i[0] = id;
+    low::b[1] = focus;
+
+    low::call("_UWindowSetFieldFocus");
+}
+
+void _UWindowSetFieldRect(int id, float x, float y, float w, float h) {
+    low::i[0] = id;
+    low::f[1] = x;
+    low::f[2] = y;
+    low::f[3] = w;
+    low::f[4] = h;
+
+    low::call("_UWindowSetFieldRect");
+}
+
+void _UWindowSetFieldText(int id, const std::string &text) {
+    low::i[0] = id;
+    low::s[1] = text;
+
+    low::call("_UWindowSetFieldText");
 }
 
 define_low_function(_UWindowNotifyShow)
@@ -119,17 +112,6 @@ void _UWindowNotifyDestroy() {
 
     if (UWindow::ptr window = UWindowGet(id)) {
         window->_notifyDestroy();
-    }
-}
-
-define_low_function(_UWindowNotifyCursorBegin)
-void _UWindowNotifyCursorBegin() {
-    int   id = low::i[0];
-    float x  = low::f[1];
-    float y  = low::f[2];
-
-    if (UWindow::ptr window = UWindowGet(id)) {
-        window->_notifyCursorBegin(x, y);
     }
 }
 
@@ -189,17 +171,6 @@ void _UWindowNotifyCursorUp() {
     }
 }
 
-define_low_function(_UWindowNotifyCursorEnd)
-void _UWindowNotifyCursorEnd() {
-    int   id = low::i[0];
-    float x  = low::f[1];
-    float y  = low::f[2];
-
-    if (UWindow::ptr window = UWindowGet(id)) {
-        window->_notifyCursorEnd(x, y);
-    }
-}
-
 define_low_function(_UWindowNotifyKey)
 void _UWindowNotifyKey() {
     int  id        = /* ... .. */low::i[0];
@@ -211,94 +182,24 @@ void _UWindowNotifyKey() {
     }
 }
 
-define_low_function(_UWindowFieldVisible)
-void _UWindowFieldVisible() {
-    int id = low::i[0];
-
-    if (UWindow::ptr window = UWindowGet(id)) {
-        low::br = window->fieldVisible();
-    }
-    low::br = false;
-}
-
-define_low_function(_UWindowFieldSetFocus)
-void _UWindowFieldSetFocus() {
+define_low_function(_UWindowNotifyFieldFocus)
+void _UWindowNotifyFieldFocus() {
     int  id    = low::i[0];
     bool focus = low::b[1];
 
     if (UWindow::ptr window = UWindowGet(id)) {
-        window->setFieldFocus(focus);
+        window->_notifyFieldFocus(focus);
     }
 }
 
-define_low_function(_UWindowFieldFocus)
-void _UWindowFieldFocus() {
-    int id = low::i[0];
-
-    if (UWindow::ptr window = UWindowGet(id)) {
-        low::br = window->fieldFocus();
-    }
-    low::br = false;
-}
-
-define_low_function(_UWindowFieldX)
-void _UWindowFieldX() {
-    int id = low::i[0];
-
-    if (UWindow::ptr window = UWindowGet(id)) {
-        low::fr = window->fieldX();
-    }
-    low::fr = 0;
-}
-
-define_low_function(_UWindowFieldY)
-void _UWindowFieldY() {
-    int id = low::i[0];
-
-    if (UWindow::ptr window = UWindowGet(id)) {
-        low::fr = window->fieldY();
-    }
-    low::fr = 0;
-}
-
-define_low_function(_UWindowFieldWidth)
-void _UWindowFieldWidth() {
-    int id = low::i[0];
-
-    if (UWindow::ptr window = UWindowGet(id)) {
-        low::fr = window->fieldWidth();
-    }
-    low::fr = 0;
-}
-
-define_low_function(_UWindowFieldHeight)
-void _UWindowFieldHeight() {
-    int id = low::i[0];
-
-    if (UWindow::ptr window = UWindowGet(id)) {
-        low::fr = window->fieldHeight();
-    }
-    low::fr = 0;
-}
-
-define_low_function(_UWindowFieldSetText)
-void _UWindowFieldSetText() {
+define_low_function(_UWindowNotifyFieldText)
+void _UWindowNotifyFieldText() {
     int         id   = low::i[0];
     std::string text = low::s[1];
 
     if (UWindow::ptr window = UWindowGet(id)) {
-        window->setFieldText(text);
+        window->_notifyFieldText(text);
     }
-}
-
-define_low_function(_UWindowFieldText)
-void _UWindowFieldText() {
-    int id = low::i[0];
-
-    if (UWindow::ptr window = UWindowGet(id)) {
-        low::sr = window->fieldText();
-    }
-    low::sr = "";
 }
 
 define_low_function(_UWindowNotifyResize)
@@ -330,8 +231,25 @@ void _UWindowNotifyDraw() {
     }
 }
 
+define_reflectable_class_function(UWindow, setSession, "args:session")
+void UWindow::setSession(const std::string &session) {
+    mSession = session;
+}
+
+define_reflectable_class_function(UWindow, session)
+std::string UWindow::session() {
+    return mSession;
+}
+
 define_reflectable_class_function(UWindow, setTitle, "args:title")
 void UWindow::setTitle(const std::string &title) {
+    if (mTitle == title) {
+        return;
+    }
+
+    if (mCreated) {
+        _UWindowSetTitle(UWindowID(this), title);
+    }
     mTitle = title;
 }
 
@@ -340,43 +258,77 @@ std::string UWindow::title() {
     return mTitle;
 }
 
-define_reflectable_class_function(UWindow, setIdentifier, "args:identifier")
-void UWindow::setIdentifier(const std::string &identifier) {
-    mIdentifier = identifier;
-}
+define_reflectable_class_function(UWindow, createWindow)
+void UWindow::createWindow() {
+    if (mCreated) {
+        return;
+    }
 
-define_reflectable_class_function(UWindow, identifier)
-std::string UWindow::identifier() {
-    return mIdentifier;
+    UWindowRegister(UWindowID(this), me());
+
+    _UWindowCreate         (UWindowID(this), mSession);
+    _UWindowSetTitle       (UWindowID(this), mTitle);
+    _UWindowSetFieldVisible(UWindowID(this), mFieldVisible);
+    _UWindowSetFieldRect   (UWindowID(this), mFieldX, mFieldY, mFieldWidth, mFieldHeight);
+    _UWindowSetFieldText   (UWindowID(this), mFieldText);
+
+    mCreated = true;
+    onCreate();
 }
 
 define_reflectable_class_function(UWindow, showWindow)
 void UWindow::showWindow() {
-    UWindowRegister(me());
-    mWantShow = true;
+    if (mShown) {
+        return;
+    }
+
+    //make sure the window is created.
+    createWindow();
+
+    _UWindowShow(UWindowID(this));
 }
 
-define_reflectable_class_function(UWindow, wantShow)
-bool UWindow::wantShow() {
-    return mWantShow;
+define_reflectable_class_function(UWindow, hideWindow)
+void UWindow::hideWindow() {
+    if (! mShown) {
+        return;
+    }
+
+    _UWindowHide(UWindowID(this));
 }
 
-define_reflectable_class_function(UWindow, created)
-define_reflectable_class_function(UWindow, shown  )
-define_reflectable_class_function(UWindow, width  )
-define_reflectable_class_function(UWindow, height )
+define_reflectable_class_function(UWindow, destroyWindow)
+void UWindow::destroyWindow() {
+    if (mDestroyed) {
+        return;
+    }
 
-bool  UWindow::created() { return mCreated; }
-bool  UWindow::shown  () { return mShown  ; }
-float UWindow::width  () { return mWidth  ; }
-float UWindow::height () { return mHeight ; }
+    mDestroyed = true;
+    onDestroy();
 
-define_reflectable_class_function(UWindow, cursorBegan )
+    _UWindowDestroy(UWindowID(this));
+}
+
+define_reflectable_class_function(UWindow, created  )
+define_reflectable_class_function(UWindow, shown    )
+define_reflectable_class_function(UWindow, destroyed)
+
+bool UWindow::created  () { return mCreated  ; }
+bool UWindow::shown    () { return mShown    ; }
+bool UWindow::destroyed() { return mDestroyed; }
+
+define_reflectable_class_function(UWindow, width )
+define_reflectable_class_function(UWindow, height)
+
+float UWindow::width () { return mWidth ; }
+float UWindow::height() { return mHeight; }
+
+define_reflectable_class_function(UWindow, cursorActive)
 define_reflectable_class_function(UWindow, cursorDowned)
 define_reflectable_class_function(UWindow, cursorX     )
 define_reflectable_class_function(UWindow, cursorY     )
 
-bool  UWindow::cursorBegan () { return mCursorBegan ; }
+bool  UWindow::cursorActive() { return mCursorActive; }
 bool  UWindow::cursorDowned() { return mCursorDowned; }
 float UWindow::cursorX     () { return mCursorX     ; }
 float UWindow::cursorY     () { return mCursorY     ; }
@@ -387,24 +339,32 @@ void UWindow::setFieldVisible(bool visible) {
         return;
     }
 
+    _UWindowSetFieldVisible(UWindowID(this), visible);
     mFieldVisible = visible;
-    if (!visible) {
-        setFieldFocus(false);
-    }
 }
 
 define_reflectable_class_function(UWindow, setFieldFocus, "args:focus")
 void UWindow::setFieldFocus(bool focus) {
+    if (! mCreated) {
+        return;
+    }
     if (mFieldFocus == focus) {
         return;
     }
 
-    mFieldFocus = focus;
-    onFieldFocus(focus);
+    _UWindowSetFieldFocus(UWindowID(this), focus);
 }
 
 define_reflectable_class_function(UWindow, setFieldRect, "args:x,y,w,h")
 void UWindow::setFieldRect(float x, float y, float w, float h) {
+    if (mFieldX == x && mFieldWidth  == w &&
+        mFieldY == y && mFieldHeight == h )
+    {
+        return;
+    }
+
+    _UWindowSetFieldRect(UWindowID(this), x, y, w, h);
+
     mFieldX      = x;
     mFieldY      = y;
     mFieldWidth  = w;
@@ -417,6 +377,8 @@ void UWindow::setFieldText(const std::string &text) {
         return;
     }
 
+    _UWindowSetFieldText(UWindowID(this), text);
+
     mFieldText = text;
     onFieldText(text);
 }
@@ -427,15 +389,18 @@ define_reflectable_class_function(UWindow, fieldX      )
 define_reflectable_class_function(UWindow, fieldY      )
 define_reflectable_class_function(UWindow, fieldWidth  )
 define_reflectable_class_function(UWindow, fieldHeight )
-define_reflectable_class_function(UWindow, fieldText   )
 
-bool        UWindow::fieldVisible() { return mFieldVisible; }
-bool        UWindow::fieldFocus  () { return mFieldFocus  ; }
-float       UWindow::fieldX      () { return mFieldX      ; }
-float       UWindow::fieldY      () { return mFieldY      ; }
-float       UWindow::fieldWidth  () { return mFieldWidth  ; }
-float       UWindow::fieldHeight () { return mFieldHeight ; }
-std::string UWindow::fieldText   () { return mFieldText   ; }
+bool  UWindow::fieldVisible() { return mFieldVisible; }
+bool  UWindow::fieldFocus  () { return mFieldFocus  ; }
+float UWindow::fieldX      () { return mFieldX      ; }
+float UWindow::fieldY      () { return mFieldY      ; }
+float UWindow::fieldWidth  () { return mFieldWidth  ; }
+float UWindow::fieldHeight () { return mFieldHeight ; }
+
+define_reflectable_class_function(UWindow, fieldText)
+std::string UWindow::fieldText() {
+    return mFieldText;
+}
 
 define_reflectable_class_function(UWindow, onCreate )
 define_reflectable_class_function(UWindow, onShow   )
@@ -447,21 +412,17 @@ void UWindow::onShow   () { implement_injectable_function(void) }
 void UWindow::onHide   () { implement_injectable_function(void) }
 void UWindow::onDestroy() { implement_injectable_function(void) }
 
-define_reflectable_class_function(UWindow, onCursorBegin, "args:x,y"       )
 define_reflectable_class_function(UWindow, onCursorWheel, "args:x,y,delta" )
 define_reflectable_class_function(UWindow, onCursorRight, "args:x,y"       )
 define_reflectable_class_function(UWindow, onCursorMove , "args:x,y,downed")
 define_reflectable_class_function(UWindow, onCursorDown , "args:x,y"       )
 define_reflectable_class_function(UWindow, onCursorUp   , "args:x,y"       )
-define_reflectable_class_function(UWindow, onCursorEnd  , "args:x,y"       )
 
-void UWindow::onCursorBegin(float x, float y)              { implement_injectable_function(void, x, y        ) }
 void UWindow::onCursorWheel(float x, float y, float delta) { implement_injectable_function(void, x, y, delta ) }
 void UWindow::onCursorRight(float x, float y)              { implement_injectable_function(void, x, y        ) }
 void UWindow::onCursorMove (float x, float y, bool downed) { implement_injectable_function(void, x, y, downed) }
 void UWindow::onCursorDown (float x, float y)              { implement_injectable_function(void, x, y        ) }
 void UWindow::onCursorUp   (float x, float y)              { implement_injectable_function(void, x, y        ) }
-void UWindow::onCursorEnd  (float x, float y)              { implement_injectable_function(void, x, y        ) }
 
 define_reflectable_class_function(UWindow, onKey, "args:key,modifiers,ch")
 void UWindow::onKey(UKey key, UModifiers modifiers, char ch) {
@@ -493,17 +454,8 @@ void UWindow::onDraw() {
     implement_injectable_function(void)
 }
 
-void UWindow::_notifyCreate() {
-    if (mCreated) {
-        return;
-    }
-
-    mCreated = true;
-    onCreate();
-}
-
 void UWindow::_notifyShow() {
-    if (!mCreated || mShown) {
+    if (mShown) {
         return;
     }
 
@@ -512,7 +464,7 @@ void UWindow::_notifyShow() {
 }
 
 void UWindow::_notifyHide() {
-    if (!mShown) {
+    if (! mShown) {
         return;
     }
 
@@ -521,156 +473,69 @@ void UWindow::_notifyHide() {
 }
 
 void UWindow::_notifyDestroy() {
-    if (!mCreated) {
+    if (mDestroyed) {
         return;
     }
 
-    mCreated = false;
+    mDestroyed = false;
     onDestroy();
 }
 
-void UWindow::_notifyCursorBegin(float x, float y) {
-    //begin.
-    if (!mCursorBegan) {
-        mCursorBegan = true;
-
-        mCursorX = x;
-        mCursorY = y;
-        onCursorBegin(x, y);
-
-        return;
-    }
-
-    //move.
-    if (mCursorX != x || mCursorY != y) {
-        mCursorX = x;
-        mCursorY = y;
-        onCursorMove(x, y, mCursorDowned);
-    }
-}
-
 void UWindow::_notifyCursorWheel(float x, float y, float delta) {
-    //begin -> wheel -> end.
-    if (!mCursorBegan) {
-        mCursorX = x;
-        mCursorY = y;
-
-        mCursorBegan = true ; onCursorBegin(x, y);
-        /* .... .... .... .*/ onCursorWheel(x, y, delta);
-        mCursorBegan = false; onCursorEnd  (x, y);
-
-        return;
-    }
-
-    //move -> wheel.
-    if (mCursorX != x || mCursorY != y) {
-        mCursorX = x;
-        mCursorY = y;
-        onCursorMove(x, y, mCursorDowned);
-    }
+    _notifyCursorMove(x, y);
     onCursorWheel(x, y, delta);
 }
 
 void UWindow::_notifyCursorRight(float x, float y) {
-    //begin -> right -> end.
-    if (!mCursorBegan) {
-        mCursorX = x;
-        mCursorY = y;
-
-        mCursorBegan = true ; onCursorBegin(x, y);
-        /* .... .... .... .*/ onCursorRight(x, y);
-        mCursorBegan = false; onCursorEnd  (x, y);
-
-        return;
-    }
-
-    //move -> right.
-    if (mCursorX != x || mCursorY != y) {
-        mCursorX = x;
-        mCursorY = y;
-        onCursorMove(x, y, mCursorDowned);
-    }
+    _notifyCursorMove(x, y);
     onCursorRight(x, y);
 }
 
 void UWindow::_notifyCursorMove(float x, float y) {
-    //begin -> end.
-    if (!mCursorBegan) {
-        mCursorX = x;
-        mCursorY = x;
-
-        mCursorBegan = true ; onCursorBegin(x, y);
-        mCursorBegan = false; onCursorEnd  (x, y);
-
+    if (mCursorX == x && mCursorY == y) {
         return;
     }
 
-    //move.
-    if (mCursorX != x || mCursorY != y) {
-        mCursorX = x;
-        mCursorY = y;
-        onCursorMove(x, y, mCursorDowned);
-    }
+    onCursorMove(x, y, mCursorDowned);
 }
 
 void UWindow::_notifyCursorDown(float x, float y) {
-    //begin -> down.
-    if (!mCursorBegan) {
-        mCursorX = x;
-        mCursorY = y;
+    _notifyCursorMove(x, y);
 
-        mCursorBegan  = true ; onCursorBegin(x, y);
-        mCursorDowned = true ; onCursorDown (x, y);
-
-        return;
-    }
-
-    //move -> down.
-    if (mCursorX != x || mCursorY != y) {
-        mCursorX = x;
-        mCursorY = y;
-        onCursorMove(x, y, mCursorDowned);
-    }
     mCursorDowned = true;
     onCursorDown(x, y);
 }
 
 void UWindow::_notifyCursorUp(float x, float y) {
-    if (!mCursorDowned) {
-        return;
-    }
+    _notifyCursorMove(x, y);
 
-    //move -> up.
-    if (mCursorX != x || mCursorY != y) {
-        mCursorX = x;
-        mCursorY = y;
-        onCursorMove(x, y, mCursorDowned);
-    }
-    mCursorDowned = false;
-    onCursorUp(x, y);
-}
-
-void UWindow::_notifyCursorEnd(float x, float y) {
-    if (!mCursorBegan) {
-        return;
-    }
-
-    //move -> up -> end.
-    if (mCursorX != x || mCursorY != y) {
-        mCursorX = x;
-        mCursorY = y;
-        onCursorMove(x, y, mCursorDowned);
-    }
     if (mCursorDowned) {
+        mCursorDowned = false;
         onCursorUp(x, y);
     }
-    mCursorBegan = false;
-    onCursorEnd(x, y);
 }
 
 void UWindow::_notifyKey(UKey key, UModifiers modifiers) {
     char ch = UKeyGetChar(key, modifiers);
     onKey(key, modifiers, ch);
+}
+
+void UWindow::_notifyFieldFocus(bool focus) {
+    if (mFieldFocus == focus) {
+        return;
+    }
+
+    mFieldFocus = focus;
+    onFieldFocus(focus);
+}
+
+void UWindow::_notifyFieldText(const std::string &text) {
+    if (mFieldText == text) {
+        return;
+    }
+
+    mFieldText = text;
+    onFieldText(text);
 }
 
 void UWindow::_notifyResize(float w, float h) {
