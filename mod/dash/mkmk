@@ -3,6 +3,10 @@
 cd `dirname $0`
 
 export defm=-Dcustom_main=dash_main
-export srcd=../../cppapi/dash
+
+export srcd="           \
+    ../../cppapi/dash   \
+    ../../host/console  \
+"
 
 sh ../../mkgen

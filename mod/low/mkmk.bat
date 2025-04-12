@@ -8,7 +8,8 @@ set defm=/Dcustom_main=low_main
 
 set srcd=               ^
     ../../cppapi/low    ^
-    ../../cppapi/dash
+    ../../cppapi/dash   ^
+    ../../host/console
 
 call ..\..\mkgen.bat
 
