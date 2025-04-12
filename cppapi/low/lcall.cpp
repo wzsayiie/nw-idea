@@ -1,40 +1,35 @@
 #include "lcall.h"
 #include <map>
+#include <functional>
 #include <string>
 #include "dlazy.h"
 
 namespace low {
 
-struct lambda {
-    void (*proc)(int);
-    int param;
-};
-
-static dash::lazy<std::map<std::string, lambda>> g_lambdas;
+static dash::lazy<std::map<std::string, std::function<void ()>>> g_procs;
 
 void set(const char *name, void (*proc)(int), int param) {
-    if (!name || !proc) {
+    if (! name || ! proc) {
         return;
     }
 
-    lambda lmd = {
-        .proc  = proc,
-        .param = param,
+    std::function<void ()> lambda = [=]() {
+        proc(param);
     };
-    g_lambdas->insert({ name, lmd });
+    g_procs->insert({ name, lambda });
 }
 
 void call(const char *name) {
-    if (!name) {
+    if (! name) {
         return;
     }
 
-    auto it = g_lambdas->find(name);
-    if (it == g_lambdas->end()) {
+    auto it = g_procs->find(name);
+    if (it == g_procs->end()) {
         return;
     }
 
-    it->second.proc(it->second.param);
+    it->second();
 }
 
 } //end low.

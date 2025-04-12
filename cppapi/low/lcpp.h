@@ -9,7 +9,7 @@
 namespace low {
 
 struct setter {
-    setter(const char *name, void (*proc)());
+    setter(const char *name, void (*func)());
 };
 
 } //end low.
